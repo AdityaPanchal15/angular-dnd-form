@@ -60,10 +60,10 @@ export class FormPropertiesComponent {
     * Edit listing form method
     */
   editListingForm() {
-    console.log(this.properties);
-    
     this.listingForm?.patchValue({
+      inputId: this.properties?.inputId,
       name: this.properties?.name,
+      placeholder: this.properties?.placeholder,
       type: this.properties?.type,
       label: this.properties?.label,
       description: this.properties?.description,
@@ -76,7 +76,8 @@ export class FormPropertiesComponent {
       fontFamily: this.properties?.fontFamily,
       fontSize: this.properties?.fontSize,
       padding: this.properties?.padding,
-      margin: this.properties?.margin
+      margin: this.properties?.margin,
+      tag: this.properties?.tag,
     });
   }
 
@@ -89,7 +90,9 @@ export class FormPropertiesComponent {
     } else {
       var requestData = {
         // listingId: this.properties ? this.properties?.listingId : 0,
+        inputId: this.listingForm.value.inputId,
         name: this.listingForm.value.name,
+        placeholder: this.listingForm.value.placeholder,
         label: this.listingForm.value.label,
         type: this.listingForm.value.type,
         description: this.listingForm.value.description,
@@ -102,7 +105,8 @@ export class FormPropertiesComponent {
         fontFamily: this.listingForm.value.fontFamily,
         fontSize: this.listingForm.value.fontSize,
         padding: this.listingForm.value.padding,
-        margin: this.listingForm.value.margin
+        margin: this.listingForm.value.margin,
+        tag: this.listingForm.value.tag
       };
       // After successfully save the response get again the listing data and update the form
       if (true) {

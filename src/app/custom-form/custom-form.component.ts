@@ -8,17 +8,15 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrl: './custom-form.component.scss'
 })
 export class CustomFormComponent {
-  todo = [
-    'Get to work',
-    'Pick up groceries',
-    'Go home',
-    'Fall asleep'
-  ];
-  
   inputList = [
-    { type: 'text', name: 'text', label: 'Text' },
-    { type: 'checkbox', name: 'checkbox', label: 'Checkbox' },
-    { type: 'select', name: 'select', label: 'Select' },
+    { type: 'text', name: 'text', label: 'Text', tag: 'input', inputId: 'text' },
+    { type: 'checkbox', name: 'checkbox', label: 'Checkbox', tag: 'checkbox', inputId: 'checkbox' },
+    { type: 'file', name: 'file', label: 'File Upload', tag: 'input', inputId: 'file' },
+    { type: 'date', name: 'date', label: 'Date', tag: 'input', inputId: 'date' },
+    { type: 'time', name: 'time', label: 'Time', tag: 'input', inputId: 'time' },
+    { type: 'radio', name: 'radio', label: 'Radio', tag: 'radio', inputId: 'radio' },
+    { type: 'textarea', name: 'textarea', label: 'Text Area', tag: 'textarea', inputId: 'textarea' },
+    { type: 'select', name: 'select', label: 'Select', tag: 'select', inputId: 'select' },
   ];
   
   properties: any;
@@ -32,8 +30,10 @@ export class CustomFormComponent {
   
   ngOnInit() {
     this.listingForm = this.fb.group({
+      inputId: [''],
       name: [''],
       type: [''],
+      placeholder: [''],
       label: [''],
       description: [''],
       isActive: [true],
@@ -45,7 +45,8 @@ export class CustomFormComponent {
       fontFamily: [''],
       fontSize: [null],
       padding: [''],
-      margin: ['']
+      margin: [''],
+      tag: ['']
     });
     
     this.listingForm.valueChanges.subscribe((res) => {
@@ -69,22 +70,32 @@ export class CustomFormComponent {
                         event.previousIndex,
                         event.currentIndex);
                         
-      const droppedItem = event.container.data[event.currentIndex];
-      droppedItem.id = this.generateUniqueId();
-      // // Transfer the item to the new container and place it at the bottom
-      // const previousData = event.previousContainer.data[event.previousIndex];
-      
-      // // Remove the item from the previous container
-      // event.previousContainer.data.splice(event.previousIndex, 1);
-
-      // // Push the item to the end of the target container
-      // const newItem = { ...previousData, id: this.generateUniqueId() }; // Ensure a unique ID
-      // event.container.data.push(newItem);
+      event.container.data[event.currentIndex] = {
+        ...event.container.data[event.currentIndex],
+        backgroundColor: '',
+        placeholder: '',
+        borderColor: '',
+        description: '',
+        fontFamily: '',
+        fontSize: '',
+        id: this.generateUniqueId(),
+        isActive: true,
+        listingHeight: '',
+        listingWidth: '100%',
+        margin: '',
+        padding: '',
+        textColor: ''
+      }
     }
-    this.inputList = [
-      { type: 'text', name: 'text', label: 'Text' },
-      { type: 'checkbox', name: 'checkbox', label: 'Checkbox' },
-      { type: 'select', name: 'select', label: 'Select' },
+    this.inputList =  [
+      { type: 'text', name: 'text', label: 'Text', tag: 'input', inputId: 'text' },
+      { type: 'checkbox', name: 'checkbox', label: 'Checkbox', tag: 'checkbox', inputId: 'checkbox' },
+      { type: 'file', name: 'file', label: 'File Upload', tag: 'input', inputId: 'file' },
+      { type: 'date', name: 'date', label: 'Date', tag: 'input', inputId: 'date' },
+      { type: 'time', name: 'time', label: 'Time', tag: 'input', inputId: 'time' },
+      { type: 'radio', name: 'radio', label: 'Radio', tag: 'radio', inputId: 'radio' },
+      { type: 'textarea', name: 'textarea', label: 'Text Area', tag: 'textarea', inputId: 'textarea' },
+      { type: 'select', name: 'select', label: 'Select', tag: 'select', inputId: 'select' },
     ];
   }
   
@@ -94,8 +105,6 @@ export class CustomFormComponent {
   }
   
   onSelectInput(selectedInput: any) {
-    console.log(this.listingForm);
-    
     this.selectedInput = selectedInput;
   }
 }
