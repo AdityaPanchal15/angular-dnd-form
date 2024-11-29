@@ -1,0 +1,88 @@
+<!-- <div class="modal-header justify-content-between">
+  <h2 class="modal-title" id="exampleModalLabel">Listing</h2>
+  <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close" (click)="closeModalPopup()">
+      <span aria-hidden="true">&times;</span>
+  </button>
+</div> -->
+<!-- <div class="modal-body"> -->
+  <div class="p-2">
+
+  <div *ngIf="listingForm">
+      <form [formGroup]="listingForm">
+        <div class="form-group my-2">
+          <label for="name">Name</label>
+          <input type="text" id="name" class="form-control" formControlName="name" />
+        </div>
+        <div class="form-group my-2">
+          <label for="label">Label</label>
+          <input type="text" id="label" class="form-control" formControlName="label" />
+        </div>
+    
+        <div class="form-group my-2">
+          <label for="description">Description</label>
+          <textarea id="description" class="form-control" rows="3" formControlName="description"></textarea>
+        </div>
+    
+        <div class="form-check my-2">
+          <input type="checkbox" id="isActive" class="form-check-input" formControlName="isActive" />
+          <label for="isActive" class="form-check-label">Is Active</label>
+        </div>
+    
+        <div class="form-row">
+          <div class="form-group col-md-6 my-2">
+            <label for="listingWidth">Listing Width</label>
+            <select class="form-control" id="listingWidth" formControlName="listingWidth">
+              <option value="100%">100 %</option>
+              <option value="75%">75 %</option>
+              <option value="50%">50 %</option>
+              <option value="25%">25 %</option>
+            </select>
+          </div>
+          <div class="form-group col-md-6 my-2">
+            <label for="listingHeight">Listing Height</label>
+            <input type="text" id="listingHeight" class="form-control" formControlName="listingHeight" />
+          </div>
+        </div>
+    
+        <div class="form-group my-2">
+          <label for="backgroundColor">Background Color</label>
+          <input type="text" id="backgroundColor" class="form-control" formControlName="backgroundColor" />
+        </div>
+    
+        <div class="form-group my-2">
+          <label for="textColor">Text Color</label>
+          <input type="text" id="textColor" class="form-control" formControlName="textColor" />
+        </div>
+    
+        <div class="form-group my-2">
+          <label for="borderColor">Border Color</label>
+          <input type="text" id="borderColor" class="form-control" formControlName="borderColor" />
+        </div>
+    
+        <div class="form-group my-2">
+          <label for="fontFamily">Font Family</label>
+          <input type="text" id="fontFamily" class="form-control" formControlName="fontFamily" />
+        </div>
+    
+        <div class="form-row">
+          <div class="form-group col-md-6 my-2">
+            <label for="fontSize">Font Size</label>
+            <input type="number" id="fontSize" class="form-control" formControlName="fontSize" />
+          </div>
+          <div class="form-group col-md-6 my-2">
+            <label for="padding">Padding</label>
+            <input type="text" id="padding" class="form-control" formControlName="padding" />
+          </div>
+        </div>
+    
+        <div class="form-group my-2">
+          <label for="margin">Margin</label>
+          <input type="text" id="margin" class="form-control" formControlName="margin" />
+        </div>
+      </form>
+  </div>
+<!-- </div> -->
+<!-- <div class=""> -->
+  <button class="btn btn-secondory" (click)="closeModalPopup()">Cancel</button>
+  <button type="button" class="btn btn-primary" (click)="submitListingForm()">Save</button>
+</div>

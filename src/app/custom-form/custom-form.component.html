@@ -1,0 +1,50 @@
+<!-- <input type="text" appResizable /> -->
+<div class="row no-gutter">
+  <div class="col-3">
+  
+    <div
+      cdkDropList
+      #todoList="cdkDropList"
+      [cdkDropListData]="inputList"
+      [cdkDropListConnectedTo]="[doneList]"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let item of inputList" cdkDrag>
+        <b>{{ item.label }}</b>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-6">
+    <div
+      cdkDropList
+      #doneList="cdkDropList"
+      [cdkDropListData]="done"
+      [cdkDropListConnectedTo]="[todoList]"
+      class="example-list1"
+      (cdkDropListDropped)="drop($event)">
+      <div class="example-box1" [style.width]="item.listingWidth" *ngFor="let item of done" cdkDrag>
+        <div [class]="item?.id === selectedInput?.id ? 'selected-input input-container' : 'input-container'" (click)="onSelectInput(item)">
+          <b class="mb-2">{{ item.label }}</b><br/>
+          @if(item.type !== 'select') {
+            <input [type]="item.type" [placeholder]="item.name" class="form-control" [style.padding]="item.padding" [style.margin]="item.margin"
+            [style.font-size]="item.fontSize" [style.font-family]="item.fontFamily"
+            [style.color]="item.textColor" [style.border-color]="item.borderColor"
+            [style.height]="item.listingHeight"
+            [style.background-color]="item.backgroundColor" appResizable />
+          } @else {
+            <select class="form-select">
+              <option value="1">Demo</option>
+            </select>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-3">
+    <div class="right-container">
+      <app-form-properties [properties]="selectedInput" [listingForm]="listingForm"></app-form-properties>
+    </div>
+  </div>
+</div>
