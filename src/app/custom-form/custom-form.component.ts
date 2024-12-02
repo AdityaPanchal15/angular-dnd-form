@@ -20,6 +20,7 @@ export class CustomFormComponent implements AfterViewInit{
   done: any = [];
   listingForm!: FormGroup;
   closeResult: string = '';
+  formValidations!: FormGroup;
 
   @ViewChildren(CdkDropList) dropLists!: QueryList<CdkDropList>;
 
@@ -50,7 +51,13 @@ export class CustomFormComponent implements AfterViewInit{
       isActive: [true],
       listingWidth: ['50%'],
       tag: [''],
-      sectionName: ['']
+      sectionName: [''],
+      formValidations : this.fb.group({
+        fieldRequired: [true],
+        minimum: [''],
+        maximum: [''],
+        regex: ['']
+      })
     });
     
     this.listingForm.valueChanges.subscribe((res) => {
@@ -171,6 +178,7 @@ export class CustomFormComponent implements AfterViewInit{
   }
 
   onSelectInput(item: any) {
+    console.log('Item: ', item)
     this.selectedInput = item;
   }
 }

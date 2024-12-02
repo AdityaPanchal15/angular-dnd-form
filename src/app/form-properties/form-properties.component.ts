@@ -11,7 +11,7 @@ export class FormPropertiesComponent {
    * Initization
    */
   @Input() properties?: any;
-  @Input() listingForm?: FormGroup;
+  @Input() listingForm!: FormGroup;
 
   ngOnChanges(changes: any) {
     if (this.properties) {
@@ -32,7 +32,20 @@ export class FormPropertiesComponent {
       description: this.properties?.description,
       isActive: this.properties?.isActive,
       listingWidth: this.properties?.listingWidth,
-      tag: this.properties?.tag
+      tag: this.properties?.tag,
+      formValidations: {
+        fieldRequired: this.properties?.fieldRequired,
+        minimum: this.properties?.minimum,
+        maximum: this.properties?.maximum,
+        regex: this.properties?.regex
+      }
     });
   }
+
+    /**
+   * Method to get the formValidations form
+   */
+    get getFormValidations() {
+      return this.listingForm.get('formValidations') as FormGroup;
+    }
 }
