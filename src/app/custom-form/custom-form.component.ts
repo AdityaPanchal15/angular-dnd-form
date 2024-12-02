@@ -47,21 +47,19 @@ export class CustomFormComponent implements AfterViewInit{
       label: [''],
       description: [''],
       isActive: [true],
-      listingWidth: ['50%'],
-      tag: [''],
-      sectionName: ['']
+      listingWidth: ['100%'],
+      tag: ['']
     });
     
     this.listingForm.valueChanges.subscribe((res) => {
       console.log(res);
       res.id = this.selectedInput.id;
-      this.done = this.done.map((item: any) => {
-        if(item.id === res.id) {
-          item = res;
-          // item.sectionName = this.sectionName;
+      this.sectionList.forEach((section: any) => {
+        const itemToUpdate = section.done.find((item: any) => item.id === res.id);
+        if (itemToUpdate) {
+          Object.assign(itemToUpdate, res); // Update properties of the item directly
         }
-        return item;
-      })
+      });
     })
   
   }
@@ -69,34 +67,47 @@ export class CustomFormComponent implements AfterViewInit{
   ngAfterViewInit() {
     this.updateConnectedDropLists();
   }
-
-  drop(event: any) {
-    debugger
+  
+  updateConnectedDropLists() {
+    // Update the list of drop list IDs dynamically after the view is initialized.
+    this.connectedDropLists = this.dropLists.map(dropList => dropList.id);
+  }
+  
+  getConnectedDropListsIds(): string[] {
+    return this.sectionList.map(section => `section-${section.id}`);
+  }
+  
+  getConnectedDropLists(sectionId: number): string[] {
+    return this.connectedDropLists.filter(id => id !== `section-${sectionId}`);
+  }
+  
+  drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      transferArrayItem(event.previousContainer.data,
-                        event.container.data,
-                        event.previousIndex,
-                        event.currentIndex);
-                        
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+  
+      const newItem = event.container.data[event.currentIndex];
+      newItem.id = this.generateUniqueId();
+      newItem.backgroundColor = '';
+      newItem.placeholder = '';
+      newItem.listingWidth = '100%';
+      
       event.container.data[event.currentIndex] = {
         ...event.container.data[event.currentIndex],
-        backgroundColor: '',
         placeholder: '',
-        borderColor: '',
         description: '',
-        fontFamily: '',
-        fontSize: '',
         id: this.generateUniqueId(),
         isActive: true,
-        listingHeight: '',
-        listingWidth: '100%',
-        margin: '',
-        padding: '',
-        textColor: ''
+        listingWidth: '100%'
       }
     }
+    
     this.inputList =  [
       { type: 'text', name: 'text', label: 'Text', tag: 'input', inputId: 'text' },
       { type: 'checkbox', name: 'checkbox', label: 'Checkbox', tag: 'checkbox', inputId: 'checkbox' },
@@ -110,19 +121,22 @@ export class CustomFormComponent implements AfterViewInit{
     ];
   }
   
+  saveSection() {
+    this.sectionList.push({ sectionName: this.sectionName, id: this.sectionList.length, done: [] });
+    this.sectionName = '';
+    this.modalService.dismissAll();
+  }
+  
   generateUniqueId(): string {
     // Example of a unique ID generator using a timestamp and a random number
     return `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   }
-  
-  // onSelectInput(selectedInput: any) {
-  //   this.selectedInput = selectedInput;
-  // }
 
   addSection(content: TemplateRef<any>) {
       this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;
+          this.modalService.dismissAll();
         },
         (reason) => {
         },
@@ -130,42 +144,7 @@ export class CustomFormComponent implements AfterViewInit{
     console.log('done: ', this.done);
   }
 
-  saveSection() {
-    this.sectionList.push({'sectionName': this.sectionName, id: this.sectionList.length})
-    // this.sectionList = this.sectionList.map((section, index) => {
-    //   return { sectionName: section, id: index };  // Ensure the object is returned
-    // });
-    this.sectionName = ''
-    console.log(this.sectionList)
-  }
-
-  // Update the connected drop lists dynamically
-  updateConnectedDropLists() {
-    debugger
-    this.connectedDropLists = this.dropLists.toArray();
-  }
-
-  // drop(event: any) {
-  //   console.log('Dropped item:', event);
-  // }
-
   onSelectInput(item: any) {
     this.selectedInput = item;
   }
-
-  get getConnectedDropListsIds() {
-    return this.connectedDropLists.map(list => list.id)
-  }
-
-  // Dynamically return connected drop lists for each section
-  getConnectedDropLists(sectionId: number): any[] {
-    return this.connectedDropLists
-      .filter((_, index) => index !== sectionId) // Connect all drop lists except the current one
-      .map(dropList => dropList.id);  // Use the id to connect the lists
-  }
-
-  // getConnectedDropLists(sectionId: number): any[] {
-  //   return this.sectionList.filter(section => section.id !== sectionId)
-  //     .map(section => `doneList-${section.id}`); // Create a reference to connect
-  // }
 }

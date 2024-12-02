@@ -7,14 +7,11 @@
 </div>
 
 <div class="row no-gutter">
-  Something = {{getConnectedDropListsIds}}
   <div class="col-3">
-  
     <div
       cdkDropList
-      #todoList="cdkDropList"
       [cdkDropListData]="inputList"
-      [cdkDropListConnectedTo]="getConnectedDropListsIds"
+      [cdkDropListConnectedTo]="getConnectedDropListsIds()"
       class="example-list"
       (cdkDropListDropped)="drop($event)">
       <div class="example-box" *ngFor="let item of inputList" cdkDrag>
@@ -23,37 +20,43 @@
     </div>
   </div>
   
-  <div class="col-6"  *ngFor="let section of sectionList; let i = index">
-    <div
-      cdkDropList
-      [cdkDropListData]="done"
-      [cdkDropListConnectedTo]="getConnectedDropLists(i)"
-      class="example-list1"
-      (cdkDropListDropped)="drop($event)">
-      <div class="example-box1" [style.width]="item.listingWidth" *ngFor="let item of done" cdkDrag>
-        <div [class]="item?.id === selectedInput?.id ? 'selected-input input-container' : 'input-container'" (click)="onSelectInput(item)">
-          @if(item.tag === 'input') {
-            <label class="mb-2 form-label fw-bold" [for]="item.itemId">{{ item.label }}</label>
-            <input [type]="item.type" [id]="item.itemId" [placeholder]="item.placeholder" class="form-control pointer-none" appResizable />
-          } @else if(item.tag === 'radio' || item.tag === 'checkbox') {
-            <input class="form-check-input me-2 pointer-none" [type]="item.type" [id]="item.itemId" [name]="item.name"/>
-            <label class="mb-2 form-label fw-bold" [for]="item.itemId">{{ item.label }}</label>
-          } @else if(item.tag === 'textarea') {
-            <label class="mb-2 form-label fw-bold pointer-none" [for]="item.itemId">{{ item.label }}</label>
-            <textarea class="form-control" [placeholder]="item.placeholder" [id]="item.itemId"></textarea>
-          } @else if(item.tag === 'select') {
-            <label class="mb-2 form-label fw-bold pointer-none" [for]="item.itemId">{{ item.label }}</label>
-            <select class="form-select" [id]="item.itemId">
-              <option value="1">Demo</option>
-            </select>
-          } @else if(item.tag === 'section') {
-            <h3 for="" class="mb-2 form-label fw-bold">{{item.label}}</h3>
-            <hr>
-          }
+  <div class="col-6">
+    <div *ngFor="let section of sectionList; let i = index" class="mb-2">
+      <div
+        cdkDropList
+        [cdkDropListData]="section.done || []"
+        [cdkDropListConnectedTo]="getConnectedDropLists(i)"
+        id="section-{{i}}"
+        class="example-list1"
+        (cdkDropListDropped)="drop($event)">
+        <div class="w-100">
+          <h3>{{ section.sectionName }}</h3><br />
+        </div>
+        <div class="example-box1" [style.width]="item.listingWidth" *ngFor="let item of section.done || []" cdkDrag>
+          <div [class]="item?.id === selectedInput?.id ? 'selected-input input-container' : 'input-container'" (click)="onSelectInput(item)">
+            @if(item.tag === 'input') {
+              <label class="mb-2 form-label fw-bold" [for]="item.itemId">{{ item.label }}</label>
+              <input [type]="item.type" [id]="item.itemId" [placeholder]="item.placeholder" class="form-control pointer-none" appResizable />
+            } @else if(item.tag === 'radio' || item.tag === 'checkbox') {
+              <input class="form-check-input me-2 pointer-none" [type]="item.type" [id]="item.itemId" [name]="item.name"/>
+              <label class="mb-2 form-label fw-bold" [for]="item.itemId">{{ item.label }}</label>
+            } @else if(item.tag === 'textarea') {
+              <label class="mb-2 form-label fw-bold pointer-none" [for]="item.itemId">{{ item.label }}</label>
+              <textarea class="form-control" [placeholder]="item.placeholder" [id]="item.itemId"></textarea>
+            } @else if(item.tag === 'select') {
+              <label class="mb-2 form-label fw-bold pointer-none" [for]="item.itemId">{{ item.label }}</label>
+              <select class="form-select" [id]="item.itemId">
+                <option value="1">Demo</option>
+              </select>
+            } @else if(item.tag === 'section') {
+              <h3 for="" class="mb-2 form-label fw-bold">{{item.label}}</h3>
+              <hr>
+            }
+          </div>
         </div>
       </div>
+  
     </div>
-
   </div>
   
 
