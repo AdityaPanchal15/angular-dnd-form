@@ -11,7 +11,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormPropertiesComponent } from './form-properties/form-properties.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     DragDropModule,
     MatButtonModule,
     MatCheckboxModule,
-    NgbModule
+    NgbModule,
+    FormsModule,
   ],
   providers: [
     provideClientHydration()
