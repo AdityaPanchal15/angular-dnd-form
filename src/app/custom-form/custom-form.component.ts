@@ -2,6 +2,7 @@ import { AfterViewInit, Component, QueryList, TemplateRef, ViewChild, ViewChildr
 import {CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormPreviewComponent } from '../form-preview/form-preview.component';
 
 @Component({
   selector: 'app-custom-form',
@@ -91,13 +92,7 @@ export class CustomFormComponent implements AfterViewInit{
         event.previousIndex,
         event.currentIndex
       );
-  
-      const newItem = event.container.data[event.currentIndex];
-      newItem.id = this.generateUniqueId();
-      newItem.backgroundColor = '';
-      newItem.placeholder = '';
-      newItem.listingWidth = '100%';
-      
+        
       event.container.data[event.currentIndex] = {
         ...event.container.data[event.currentIndex],
         placeholder: '',
@@ -167,6 +162,14 @@ export class CustomFormComponent implements AfterViewInit{
       (reason) => {
       },
     );
+  }
+  
+  openPreviewModal() {
+    const previewRef = this.modalService.open(FormPreviewComponent, { centered: true });
+    previewRef.componentInstance.formData = this.sectionList;
+    previewRef.componentInstance.formPreviewModal.subscribe(() => { 
+      this.modalService.dismissAll();
+    })
   }
 
   onSelectInput(item: any) {

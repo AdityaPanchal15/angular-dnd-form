@@ -2,6 +2,7 @@
 <div class="header row">
   <h4 class="col-md-6">Header</h4>
   <div class="d-flex justify-content-end col-md-6">
+    <button class="btn btn-secondary me-2" type="button" (click)="openPreviewModal()">Preview</button>
     <button class="btn btn-primary" type="button" (click)="addSection(content)" >+ Add Section</button>
   </div>
 </div>
@@ -12,9 +13,9 @@
       cdkDropList
       [cdkDropListData]="inputList"
       [cdkDropListConnectedTo]="getConnectedDropListsIds()"
-      class="example-list"
+      class="input-fields-section"
       (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of inputList" cdkDrag>
+      <div class="input-field-lable" *ngFor="let item of inputList" cdkDrag>
         <b>{{ item.label }}</b>
       </div>
     </div>
@@ -27,14 +28,14 @@
         [cdkDropListData]="section.done || []"
         [cdkDropListConnectedTo]="getConnectedDropLists(i)"
         id="section-{{i}}"
-        class="example-list1"
+        class="form-edit-section"
         (cdkDropListDropped)="drop($event)">
         <div class="p-2 w-100 position-relative">
           <h3>{{ section.sectionName }}</h3>
           <hr>
           <span (click)="addSection(content, section)" class="editIcon"><i class="bi bi-pencil"></i></span>
         </div>
-        <div class="example-box1" [style.width]="item.listingWidth" *ngFor="let item of section.done || []" cdkDrag>
+        <div class="inner-section-block" [style.width]="item.listingWidth" *ngFor="let item of section.done || []" cdkDrag>
           <div [class]="item?.id === selectedInput?.id ? 'selected-input input-container' : 'input-container'" (click)="onSelectInput(item)">
             @if(item.tag === 'input') {
               <label class="mb-2 form-label fw-bold" [for]="item.itemId">{{ item.label }}</label>
@@ -89,7 +90,7 @@
   </ng-template>
 
   <div class="col-3">
-    <div class="right-container">
+    <div class="input-properties-section">
       <app-form-properties [properties]="selectedInput" [listingForm]="listingForm"></app-form-properties>
     </div>
   </div>

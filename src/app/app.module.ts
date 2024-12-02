@@ -12,13 +12,15 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormPropertiesComponent } from './form-properties/form-properties.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormPreviewComponent } from './form-preview/form-preview.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CustomFormComponent,
     ResizableDirective,
-    FormPropertiesComponent
+    FormPropertiesComponent,
+    FormPreviewComponent
   ],
   imports: [
     BrowserModule,

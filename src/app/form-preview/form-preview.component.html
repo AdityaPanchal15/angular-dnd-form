@@ -1,0 +1,37 @@
+<div class="modal-header justify-content-between">
+  <h3 class="modal-title" id="exampleModalLabel">Form Preview</h3>
+  <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close" (click)="closeModalPopup()">
+      <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div *ngFor="let section of formData; let i = index" class="mb-2 form-container">
+    <div class="w-100">
+      <h3>{{ section.sectionName }}</h3>
+    </div>
+    <div class="example-box1" [style.width]="item.listingWidth" *ngFor="let item of section.done || []">
+        @if(item.tag === 'input') {
+          <label class="mb-2 form-label fw-bold" [for]="item.itemId">{{ item.label }}</label>
+          <input [type]="item.type" [id]="item.itemId" [placeholder]="item.placeholder" class="form-control pointer-none" />
+        } @else if(item.tag === 'radio' || item.tag === 'checkbox') {
+          <input class="form-check-input me-2 pointer-none" [type]="item.type" [id]="item.itemId" [name]="item.name"/>
+          <label class="mb-2 form-label fw-bold" [for]="item.itemId">{{ item.label }}</label>
+        } @else if(item.tag === 'textarea') {
+          <label class="mb-2 form-label fw-bold pointer-none" [for]="item.itemId">{{ item.label }}</label>
+          <textarea class="form-control" [placeholder]="item.placeholder" [id]="item.itemId"></textarea>
+        } @else if(item.tag === 'select') {
+          <label class="mb-2 form-label fw-bold pointer-none" [for]="item.itemId">{{ item.label }}</label>
+          <select class="form-select" [id]="item.itemId">
+            <option value="1">Demo</option>
+          </select>
+        } @else if(item.tag === 'section') {
+          <h3 for="" class="mb-2 form-label fw-bold">{{item.label}}</h3>
+          <hr>
+        }
+      <!-- </div> -->
+    </div>
+  </div>
+</div>
+<div class="modal-footer d-flex justify-content-end">
+  <button class="btn btn-secondory" (click)="closeModalPopup()">Close</button>
+</div>
