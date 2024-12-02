@@ -143,7 +143,8 @@ export class CustomFormComponent implements AfterViewInit{
   }
 
   addSection(content: TemplateRef<any>, sectionDetails?: any) {
-    // this.sectionId = null;
+    this.sectionId = null;
+    this.listingForm.get('sectionName')?.patchValue('')
     if (sectionDetails) {
       // If editing, set the sectionName form control with the value to be edited
       this.listingForm.patchValue({
