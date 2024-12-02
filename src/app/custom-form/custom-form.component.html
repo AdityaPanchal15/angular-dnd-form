@@ -29,8 +29,10 @@
         id="section-{{i}}"
         class="example-list1"
         (cdkDropListDropped)="drop($event)">
-        <div class="w-100">
-          <h3>{{ section.sectionName }}</h3><br />
+        <div class="p-2 w-100 position-relative">
+          <h3>{{ section.sectionName }}</h3>
+          <hr>
+          <span (click)="addSection(content, section)" class="editIcon"><i class="bi bi-pencil"></i></span>
         </div>
         <div class="example-box1" [style.width]="item.listingWidth" *ngFor="let item of section.done || []" cdkDrag>
           <div [class]="item?.id === selectedInput?.id ? 'selected-input input-container' : 'input-container'" (click)="onSelectInput(item)">
@@ -71,8 +73,7 @@
           <label for="dateOfBirth">Section Name</label>
           <div class="input-group">
             <input
-              [(ngModel)]="sectionName"
-              [ngModelOptions]="{standalone: true}"
+              formControlName = "sectionName"
               id="dateOfBirth"
               class="form-control"
               placeholder="Please enter section name"

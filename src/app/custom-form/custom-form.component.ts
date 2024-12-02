@@ -13,12 +13,12 @@ export class CustomFormComponent implements AfterViewInit{
   @ViewChild('addSections') content: any;
 
   sectionList : any [] = [];
+  sectionId: any;
   properties: any;
   selectedInput: any;
   done: any = [];
   listingForm!: FormGroup;
   closeResult: string = '';
-  sectionName: string = '';
 
   @ViewChildren(CdkDropList) dropLists!: QueryList<CdkDropList>;
 
@@ -48,12 +48,12 @@ export class CustomFormComponent implements AfterViewInit{
       description: [''],
       isActive: [true],
       listingWidth: ['100%'],
-      tag: ['']
+      tag: [''],
+      sectionName: ['']
     });
     
     this.listingForm.valueChanges.subscribe((res) => {
-      console.log(res);
-      res.id = this.selectedInput.id;
+      res.id = this.selectedInput?.id;
       this.sectionList.forEach((section: any) => {
         const itemToUpdate = section.done.find((item: any) => item.id === res.id);
         if (itemToUpdate) {
@@ -122,8 +122,23 @@ export class CustomFormComponent implements AfterViewInit{
   }
   
   saveSection() {
-    this.sectionList.push({ sectionName: this.sectionName, id: this.sectionList.length, done: [] });
-    this.sectionName = '';
+
+    const existingSectionIndex = this.sectionList.findIndex(section => section.id === this.sectionId);
+
+    if (existingSectionIndex === -1) {
+      // Section does not exist, push the new section
+      this.sectionList.push({
+        sectionName: this.listingForm.value.sectionName,
+        id: this.sectionList.length, // You can adjust this to set a unique id, depending on your logic
+        done: []
+      });
+    } else {
+      // Section exists, update it (optional if you want to modify existing section)
+      this.sectionList[existingSectionIndex] = {
+        ...this.sectionList[existingSectionIndex],  // Keep existing data
+        sectionName: this.listingForm.value.sectionName,  // Update section name with the new value
+      };
+    }
     this.modalService.dismissAll();
   }
   
@@ -132,16 +147,26 @@ export class CustomFormComponent implements AfterViewInit{
     return `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   }
 
-  addSection(content: TemplateRef<any>) {
-      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-        (result) => {
-          this.closeResult = `Closed with: ${result}`;
-          this.modalService.dismissAll();
-        },
-        (reason) => {
-        },
-      );
-    console.log('done: ', this.done);
+  addSection(content: TemplateRef<any>, sectionDetails?: any) {
+    this.sectionId = null;
+    if (sectionDetails) {
+      // If editing, set the sectionName form control with the value to be edited
+      this.listingForm.patchValue({
+        sectionName: sectionDetails.sectionName,
+      });
+      this.sectionId = sectionDetails.id
+    } else {
+      // Reset the form if adding a new section
+      this.listingForm.reset();
+    }
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+        this.modalService.dismissAll();
+      },
+      (reason) => {
+      },
+    );
   }
 
   onSelectInput(item: any) {
