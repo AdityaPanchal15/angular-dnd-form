@@ -47,7 +47,7 @@ export class CustomFormComponent implements AfterViewInit{
       label: [''],
       description: [''],
       isActive: [true],
-      listingWidth: ['100%'],
+      listingWidth: ['50%'],
       tag: [''],
       sectionName: ['']
     });
@@ -94,9 +94,8 @@ export class CustomFormComponent implements AfterViewInit{
   
       const newItem = event.container.data[event.currentIndex];
       newItem.id = this.generateUniqueId();
-      newItem.backgroundColor = '';
       newItem.placeholder = '';
-      newItem.listingWidth = '100%';
+      newItem.listingWidth = '50%';
       
       event.container.data[event.currentIndex] = {
         ...event.container.data[event.currentIndex],
@@ -104,7 +103,7 @@ export class CustomFormComponent implements AfterViewInit{
         description: '',
         id: this.generateUniqueId(),
         isActive: true,
-        listingWidth: '100%'
+        listingWidth: '50%'
       }
     }
     
@@ -148,16 +147,14 @@ export class CustomFormComponent implements AfterViewInit{
   }
 
   addSection(content: TemplateRef<any>, sectionDetails?: any) {
-    this.sectionId = null;
+    debugger
+    // this.sectionId = null;
     if (sectionDetails) {
       // If editing, set the sectionName form control with the value to be edited
       this.listingForm.patchValue({
         sectionName: sectionDetails.sectionName,
       });
       this.sectionId = sectionDetails.id
-    } else {
-      // Reset the form if adding a new section
-      this.listingForm.reset();
     }
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
       (result) => {
