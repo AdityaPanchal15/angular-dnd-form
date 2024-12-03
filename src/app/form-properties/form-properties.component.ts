@@ -23,6 +23,7 @@ export class FormPropertiesComponent {
     * Edit listing form method
     */
   editListingForm() {
+    this.listingForm.reset();
     this.listingForm?.patchValue({
       inputId: this.properties?.inputId,
       name: this.properties?.name,
@@ -32,14 +33,15 @@ export class FormPropertiesComponent {
       description: this.properties?.description,
       isActive: this.properties?.isActive,
       listingWidth: this.properties?.listingWidth,
-      tag: this.properties?.tag
+      tag: this.properties?.tag,
+      controlName: this.properties?.controlName
     });
     
     this.getFormValidations?.patchValue({
-      fieldRequired: this.properties?.fieldRequired,
-      minimum: this.properties?.minimum,
-      maximum: this.properties?.maximum,
-      regex: this.properties?.regex,
+      fieldRequired: this.properties?.formValidations?.fieldRequired,
+      minimum: this.properties?.formValidations?.minimum || '',
+      maximum: this.properties?.formValidations?.maximum || '',
+      regex: this.properties?.formValidations?.regex || '',
     });
   }
 
