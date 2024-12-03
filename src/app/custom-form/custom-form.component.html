@@ -34,8 +34,12 @@
           <h3>{{ section.sectionName }}</h3>
           <hr>
           <span (click)="addSection(content, section)" class="editIcon"><i class="bi bi-pencil"></i></span>
+          <span (click)="deleteSection(section)" class="deleteSection"><i class="bi bi-trash text-danger"></i></span>
         </div>
-        <div class="inner-section-block" [style.width]="item.listingWidth" *ngFor="let item of section.done || []" cdkDrag>
+        <div class="inner-section-block position-relative" [style.width]="item.listingWidth" *ngFor="let item of section.done || []" cdkDrag>
+          <span (click)="deleteInput(item)" *ngIf="item?.id === selectedInput?.id" class="deleteInput">
+            <i class="bi bi-trash text-danger"></i>
+          </span>
           <div [class]="item?.id === selectedInput?.id ? 'selected-input input-container' : 'input-container'" (click)="onSelectInput(item)">
             @if(item.tag === 'input') {
               <label class="mb-2 form-label fw-bold" [for]="item.itemId">{{ item.label }}</label>

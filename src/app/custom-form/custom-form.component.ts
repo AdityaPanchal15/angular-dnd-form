@@ -1,8 +1,12 @@
 import { AfterViewInit, Component, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
-import {CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
+
 import { FormPreviewComponent } from '../form-preview/form-preview.component';
+import { SwalFireModel } from '../models/swalFire.model';
 
 @Component({
   selector: 'app-custom-form',
@@ -12,19 +16,16 @@ import { FormPreviewComponent } from '../form-preview/form-preview.component';
 export class CustomFormComponent implements AfterViewInit{
 
   @ViewChild('addSections') content: any;
-
-  sectionList : any [] = [];
-  sectionId: any;
-  properties: any;
-  selectedInput: any;
-  done: any = [];
-  listingForm!: FormGroup;
-  closeResult: string = '';
-  formValidations!: FormGroup;
-
   @ViewChildren(CdkDropList) dropLists!: QueryList<CdkDropList>;
-
+  closeResult: string = '';
   connectedDropLists: any[] = [];
+  done: any = [];
+  formValidations!: FormGroup;
+  listingForm!: FormGroup;
+  properties: any;
+  sectionId: any;
+  sectionList : any [] = [];
+  selectedInput: any;
 
   inputList = [
     { type: 'text', name: 'text', label: 'Text', tag: 'input', inputId: 'text' },
@@ -178,7 +179,46 @@ export class CustomFormComponent implements AfterViewInit{
   }
 
   onSelectInput(item: any) {
-    console.log('Item: ', item)
     this.selectedInput = item;
+  }
+
+  /**
+   * Method to delete the section
+   */
+  deleteSection(section: any) {
+    Swal.fire(new SwalFireModel({
+      title: "Please confirm!",
+      text: 'Are you sure you want to delete this section? This cannot be undone.',
+      confirmButtonText: 'Delete',
+      confirmButtonColor: '#F73F3F'
+    })).then((result) => {
+      if (result.isConfirmed) {
+        this.sectionList = this.sectionList.filter(item => item.id != section.id)
+      } else {
+        return;
+      }
+    });
+  }
+
+  /**
+   * Method to detlet the input
+   * @param input 
+   */
+  deleteInput(input: any) {
+    Swal.fire(new SwalFireModel({
+      title: "Please confirm!",
+      text: 'Are you sure you want to delete this input? This cannot be undone.',
+      confirmButtonText: 'Delete',
+      confirmButtonColor: '#F73F3F'
+    })).then((result) => {
+      if (result.isConfirmed) {
+        this.sectionList = this.sectionList.map(section => ({
+          ...section,
+          done: section.done.filter((item: any) => item.id !== input.id)
+        }));
+      } else {
+        return;
+      }
+    });
   }
 }
