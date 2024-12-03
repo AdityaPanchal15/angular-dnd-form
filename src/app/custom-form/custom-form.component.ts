@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, HostListener, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
 import { CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
@@ -39,7 +39,7 @@ export class CustomFormComponent implements AfterViewInit{
     {type: 'section', name: 'section', label: 'Section', tag:'section', inputId: 'section'}
   ];
 
-  constructor(private fb: FormBuilder, private modalService: NgbModal) {}
+  constructor(private fb: FormBuilder, private modalService: NgbModal, private eRef: ElementRef) {}
   
   ngOnInit() {
     this.listingForm = this.fb.group({
@@ -75,6 +75,29 @@ export class CustomFormComponent implements AfterViewInit{
 
   ngAfterViewInit() {
     this.updateConnectedDropLists();
+  }
+  
+  // Listen for clicks on the document
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: any) {
+    if(event?.target?.classList?.contains('drop-area') || event?.target?.classList?.contains('form-builder-area')) {
+      this.selectedInput = null;
+      return;
+    }
+    
+    // Check if the clicked element has the desired class
+    if (event?.target?.classList?.contains('form-edit-section')) {
+      const childNodes = event.target.childNodes;
+
+      // Convert childNodes to an array and check for nodes with class "inner-section-block"
+      const hasInnerSectionBlock = Array.from(childNodes).some((node: any) =>
+        node?.classList?.contains('inner-section-block')
+      );
+
+      if (hasInnerSectionBlock) {
+        this.selectedInput = null;
+      }
+    } 
   }
   
   updateConnectedDropLists() {

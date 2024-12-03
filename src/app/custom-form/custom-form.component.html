@@ -21,7 +21,7 @@
     </div>
   </div>
   
-  <div class="col-6">
+  <div class="col-6 form-builder-area">
     <div *ngFor="let section of sectionList; let i = index" class="mb-2">
       <div
         cdkDropList
@@ -30,29 +30,29 @@
         id="section-{{i}}"
         class="form-edit-section"
         (cdkDropListDropped)="drop($event)">
-        <div class="p-2 w-100 position-relative">
+        <div class="p-2 w-100 position-relative drop-area">
           <h3>{{ section.sectionName }}</h3>
           <hr>
           <span (click)="addSection(content, section)" class="editIcon"><i class="bi bi-pencil"></i></span>
           <span (click)="deleteSection(section)" class="deleteSection"><i class="bi bi-trash text-danger"></i></span>
         </div>
-        <div class="inner-section-block position-relative" [style.width]="item.listingWidth" *ngFor="let item of section.done || []" cdkDrag>
+        <div class="inner-section-block position-relative" [style.width]="item.listingWidth" *ngFor="let item of section.done || []"  (click)="onSelectInput(item)" cdkDrag>
           <span (click)="deleteInput(item)" *ngIf="item?.id === selectedInput?.id" class="deleteInput">
             <i class="bi bi-trash text-danger"></i>
           </span>
-          <div [class]="item?.id === selectedInput?.id ? 'selected-input input-container' : 'input-container'" (click)="onSelectInput(item)">
+          <div [class]="item?.id === selectedInput?.id ? 'selected-input input-container' : 'input-container'">
             @if(item.tag === 'input') {
-              <label class="mb-2 form-label fw-bold" [for]="item.itemId">{{ item.label }}</label>
-              <input [type]="item.type" [id]="item.itemId" [placeholder]="item.placeholder" class="form-control pointer-none" appResizable />
+              <label class="mb-2 form-label fw-bold">{{ item.label }}</label>
+              <input [type]="item.type" [id]="item.id" [placeholder]="item.placeholder" class="form-control pointer-none" />
             } @else if(item.tag === 'radio' || item.tag === 'checkbox') {
-              <input class="form-check-input me-2 pointer-none" [type]="item.type" [id]="item.itemId" [name]="item.name"/>
-              <label class="mb-2 form-label fw-bold" [for]="item.itemId">{{ item.label }}</label>
+              <input class="form-check-input me-2 pointer-none" [type]="item.type" [id]="item.id" [name]="item.name"/>
+              <label class="mb-2 form-label fw-bold" [for]="item.id">{{ item.label }}</label>
             } @else if(item.tag === 'textarea') {
-              <label class="mb-2 form-label fw-bold pointer-none" [for]="item.itemId">{{ item.label }}</label>
-              <textarea class="form-control" [placeholder]="item.placeholder" [id]="item.itemId"></textarea>
+              <label class="mb-2 form-label fw-bold pointer-none" [for]="item.id">{{ item.label }}</label>
+              <textarea class="form-control" [placeholder]="item.placeholder" [id]="item.id"></textarea>
             } @else if(item.tag === 'select') {
-              <label class="mb-2 form-label fw-bold pointer-none" [for]="item.itemId">{{ item.label }}</label>
-              <select class="form-select" [id]="item.itemId">
+              <label class="mb-2 form-label fw-bold pointer-none" [for]="item.id">{{ item.label }}</label>
+              <select class="form-select" [id]="item.id">
                 <option value="1">Demo</option>
               </select>
             } @else if(item.tag === 'section') {
