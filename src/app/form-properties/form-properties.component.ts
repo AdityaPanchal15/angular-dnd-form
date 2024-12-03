@@ -32,13 +32,14 @@ export class FormPropertiesComponent {
       description: this.properties?.description,
       isActive: this.properties?.isActive,
       listingWidth: this.properties?.listingWidth,
-      tag: this.properties?.tag,
-      formValidations: {
-        fieldRequired: this.properties?.fieldRequired,
-        minimum: this.properties?.minimum,
-        maximum: this.properties?.maximum,
-        regex: this.properties?.regex
-      }
+      tag: this.properties?.tag
+    });
+    
+    this.getFormValidations?.patchValue({
+      fieldRequired: this.properties?.fieldRequired,
+      minimum: this.properties?.minimum,
+      maximum: this.properties?.maximum,
+      regex: this.properties?.regex,
     });
   }
 
