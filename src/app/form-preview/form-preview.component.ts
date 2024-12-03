@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-form-preview',
@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './form-preview.component.scss'
 })
 export class FormPreviewComponent {
-  @Input() formData: any;
+  formData: any;
   @Output() formPreviewModal: EventEmitter<any> = new EventEmitter();
  
   closeModalPopup() {

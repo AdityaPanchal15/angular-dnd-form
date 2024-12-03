@@ -48,11 +48,12 @@ export class CustomFormComponent implements AfterViewInit{
       type: [''],
       placeholder: [''],
       label: [''],
-      description: [''],
+      title: [''],
       isActive: [true],
       listingWidth: ['50%'],
       tag: [''],
       sectionName: [''],
+      controlName: [''],
       formValidations : this.fb.group({
         fieldRequired: [true],
         minimum: [''],
@@ -64,9 +65,9 @@ export class CustomFormComponent implements AfterViewInit{
     this.listingForm.valueChanges.subscribe((res) => {
       res.id = this.selectedInput?.id;
       this.sectionList.forEach((section: any) => {
-        const itemToUpdate = section.done.find((item: any) => item.id === res.id);
-        if (itemToUpdate) {
-          Object.assign(itemToUpdate, res); // Update properties of the item directly
+        const itemToUpdate = section.done.findIndex((item: any) => item.id === res.id);
+        if (itemToUpdate >= 0) {
+          section.done[itemToUpdate] = res; // Update properties of the item directly
         }
       });
     })
