@@ -4,7 +4,7 @@
   background: white;
   overflow: hidden;
   display: block;
-  height: 91.9vh;
+  min-height: 91.9vh;
   border-right-width: 1px;
 }
 .form-edit-section {
@@ -22,7 +22,7 @@
   background: white;
   overflow: hidden;
   display: block;
-  height: 91.9vh;
+  // height: 91.9vh;
   border-left-width: 1px;
 }
 
