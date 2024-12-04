@@ -44,9 +44,19 @@
             @if(item.tag === 'input') {
               <label class="mb-2 form-label fw-bold">{{ item.label }}</label>
               <input [type]="item.type" [id]="item.id" [placeholder]="item.placeholder" class="form-control pointer-none" />
-            } @else if(item.tag === 'radio' || item.tag === 'checkbox') {
-              <input class="form-check-input me-2 pointer-none" [type]="item.type" [id]="item.id" [name]="item.name"/>
-              <label class="mb-2 form-label fw-bold" [for]="item.id">{{ item.label }}</label>
+             } @else if(item.tag === 'radio' || item.tag === 'checkbox') {
+              <label class="mb-2 form-label fw-bold pointer-none">{{ item.label }}</label>
+              <div *ngFor="let option of item.options" class="form-check">
+                <input
+                  class="form-check-input pointer-none"
+                  [type]="item.type"
+                  [name]="item.name"
+                  [value]="option.value"
+                  [id]="option.id"
+                />
+                <label class="form-check-label" [for]="option.id">{{ option.label }}</label>
+              </div>
+              <button class="btn btn-link p-0" (click)="addRadioOption(item)">+ Add Option</button>
             } @else if(item.tag === 'textarea') {
               <label class="mb-2 form-label fw-bold pointer-none" [for]="item.id">{{ item.label }}</label>
               <textarea class="form-control" [placeholder]="item.placeholder" [id]="item.id"></textarea>

@@ -10,7 +10,7 @@
         <!-- Name -->
         <div class="form-group my-2">
           <label for="name">Name</label>
-          <input type="text" id="name" class="form-control" formControlName="name" />
+          <input type="text" id="name" class="form-control" [class]="properties?.type === 'radio' ? 'disableSection' : ''" formControlName="name" [readonly]="properties?.type === 'radio'"/>
         </div>
         <!-- Placeholder -->
         <div class="form-group my-2">
@@ -42,9 +42,22 @@
             </select>
           </div>
         </div>
+        
+        <!-- Checkbox/Radio Group -->
+        <div class="my-3" *ngIf="properties?.tag === 'radio' || properties?.tag === 'checkbox'">
+          <h5>Options</h5>
+          <div formArrayName="options">
+            <div *ngFor="let option of getOptions.controls; let i = index" [formGroupName]="i" class="mb-3">
+              <h6 class="mb-2">Option {{ i + 1 }}</h6>
+              <input formControlName="label" class="form-control" placeholder="Label" />
+              <input formControlName="value" class="form-control mt-2" placeholder="Value" />
+              <button type="button" class="btn btn-danger mt-2" (click)="removeOption(i)">Remove</button>
+            </div>
+          </div>
+        </div>
 
         <div formGroupName="formValidations">
-          <h6>Validations</h6>
+          <h5>Validations</h5>
           <!-- Is Required -->
           <div class="form-check col-md-6 my-2">
             <input type="checkbox" class="form-check-input" id="fieldRequired" formControlName="fieldRequired">

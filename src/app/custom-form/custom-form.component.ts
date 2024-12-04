@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, HostListener, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
 import { CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
@@ -50,6 +50,7 @@ export class CustomFormComponent implements AfterViewInit{
       isActive: [true],
       listingWidth: ['50%'],
       tag: [''],
+      options: this.fb.array([]),
       sectionName: [''],
       controlName: [''],
       formValidations : this.fb.group({
@@ -122,14 +123,30 @@ export class CustomFormComponent implements AfterViewInit{
         event.previousIndex,
         event.currentIndex
       );
+      
+      let newItem: any = event.container.data[event.currentIndex];
         
-      event.container.data[event.currentIndex] = {
+      newItem = {
         ...event.container.data[event.currentIndex],
         placeholder: '',
         id: this.generateUniqueId(),
         isActive: true,
         listingWidth: '50%'
       }
+      
+      // Handle radio group creation
+      if (newItem.tag === 'radio') {
+        newItem.options = [{ id: this.generateUniqueId(), label: 'Option 1', value: 'Option 1' }];
+        newItem.name = `radio-group-${newItem.id}`;
+      }
+      
+      // Handle checkbox group creation
+      if (newItem.tag === 'checkbox') {
+        newItem.options = [{ id: this.generateUniqueId(), label: 'Option 1', value: 'Option 1' }];
+        newItem.name = `checkbox-group-${newItem.id}`;
+      }
+      
+      event.container.data[event.currentIndex] = newItem;
     }
     
     this.inputList =  [
@@ -144,10 +161,22 @@ export class CustomFormComponent implements AfterViewInit{
     ];
   }
   
+  get options(): FormArray {
+    return this.listingForm.get('options') as FormArray;
+  }
+  
+  addRadioOption(item: any) {
+    this.options.push(
+      this.fb.group({
+        id: this.generateUniqueId(),
+        label: [`Option ${item.options.length + 1}`],
+        value: [ `Option ${item.options.length + 1}`],
+      })
+    );
+  }
+  
   saveSection() {
-
     const existingSectionIndex = this.sectionList.findIndex(section => section.id === this.sectionId);
-
     if (existingSectionIndex === -1) {
       // Section does not exist, push the new section
       this.sectionList.push({
@@ -165,11 +194,20 @@ export class CustomFormComponent implements AfterViewInit{
     this.modalService.dismissAll();
   }
   
+  /**
+   * Method to generate unique id
+   * @returns 
+   */
   generateUniqueId(): string {
     // Example of a unique ID generator using a timestamp and a random number
     return `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   }
 
+  /**
+   * Method to add new section in form
+   * @param content 
+   * @param sectionDetails 
+   */
   addSection(content: TemplateRef<any>, sectionDetails?: any) {
     this.sectionId = null;
     this.listingForm.get('sectionName')?.patchValue('')
@@ -190,6 +228,9 @@ export class CustomFormComponent implements AfterViewInit{
     );
   }
   
+  /**
+   * Method to open preview form modal
+   */
   openPreviewModal() {
     const previewRef = this.modalService.open(FormPreviewComponent, { centered: true, backdrop: 'static', scrollable: true, windowClass: 'custom-class-max-width1100'  });
     previewRef.componentInstance.formData = this.sectionList;
@@ -198,6 +239,10 @@ export class CustomFormComponent implements AfterViewInit{
     })
   }
 
+  /**
+   * Method to set data for selected input field
+   * @param item 
+   */
   onSelectInput(item: any) {
     this.selectedInput = item;
   }
