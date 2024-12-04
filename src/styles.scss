@@ -2,3 +2,8 @@
 // @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+
+.disableSection {
+  pointer-events: none;
+  background-color: #e9ecef;
+}

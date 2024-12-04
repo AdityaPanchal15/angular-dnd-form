@@ -10,7 +10,7 @@
         <!-- Name -->
         <div class="form-group my-2">
           <label for="name">Name</label>
-          <input type="text" id="name" class="form-control" formControlName="name" />
+          <input type="text" id="name" class="form-control" [class]="properties?.type === 'radio' ? 'disableSection' : ''" formControlName="name" [readonly]="properties?.type === 'radio'"/>
         </div>
         <!-- Placeholder -->
         <div class="form-group my-2">

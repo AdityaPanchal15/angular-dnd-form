@@ -46,10 +46,6 @@ export class FormPropertiesComponent {
       regex: this.properties?.formValidations?.regex || '',
     });
     
-    if(this.properties?.type === 'radio') {
-      this.listingForm.get('name')?.disable();
-    }
-    
     this.getOptions.clear(); // Clear existing form groups if necessary
     
     this.properties.options.forEach((option: any) => {
