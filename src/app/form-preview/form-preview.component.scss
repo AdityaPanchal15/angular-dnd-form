@@ -25,3 +25,31 @@
 .pointer-none {
   pointer-events: none;
 }
+
+// Multi select dropdown
+.access-points-ddl .header {
+  width: 100%;
+  border: 1px solid #ccc;
+  height: 40px;
+  border-radius: 3px;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  position: relative;
+}
+ 
+.access-points-ddl .header div {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 90%;
+}
+ 
+.access-points-ddl .header:before {
+  font-size: 16px;
+  position: absolute;
+  right: 10px;
+  font-weight: bold;
+  color: #333;
+}

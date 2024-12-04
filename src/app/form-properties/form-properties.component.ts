@@ -33,7 +33,8 @@ export class FormPropertiesComponent {
       type: this.properties?.type,
       label: this.properties?.label,
       description: this.properties?.description,
-      isActive: this.properties?.isActive,
+      isMultiSelect: this.properties?.isMultiSelect,
+      hasRange: this.properties?.hasRange,
       listingWidth: this.properties?.listingWidth,
       tag: this.properties?.tag,
       controlName: this.properties?.controlName
@@ -48,7 +49,7 @@ export class FormPropertiesComponent {
     
     this.getOptions.clear(); // Clear existing form groups if necessary
     
-    this.properties.options.forEach((option: any) => {
+    this.properties.options?.forEach((option: any) => {
       this.getOptions.push(
         this.fb.group({
           id: option.id,
@@ -89,5 +90,21 @@ export class FormPropertiesComponent {
    */
   removeOption(index: number) {
     this.getOptions.removeAt(index);
+  }
+  
+  onTypeChange() {
+    if(this.listingForm.value.type === 'email') {
+      this.getFormValidations.patchValue({
+        regex: '/^(?![-_.])([a-zA-Z0-9]+[._%+-]?)+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/'
+      })
+    } else if(this.listingForm.value.type === 'number') {
+      this.getFormValidations.patchValue({
+        regex: '^[0-9]+$'
+      })
+    } else {
+      this.getFormValidations.patchValue({
+        regex: ''
+      })
+    }
   }
 }
