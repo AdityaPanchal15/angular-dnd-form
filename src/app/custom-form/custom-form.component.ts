@@ -28,7 +28,7 @@ export class CustomFormComponent implements AfterViewInit{
   selectedInput: any;
 
   inputList = [
-    { type: 'text', name: 'text', label: 'Text', tag: 'input', inputId: 'text', controlName: 'text' },
+    { type: 'text', name: 'text', label: 'Text', tag: 'text', inputId: 'text', controlName: 'text' },
     { type: 'checkbox', name: 'checkbox', label: 'Checkbox', tag: 'checkbox', inputId: 'checkbox', controlName: 'checkbox' },
     { type: 'file', name: 'file', label: 'File Upload', tag: 'input', inputId: 'file', controlName: 'fileUpload' },
     { type: 'date', name: 'date', label: 'Date', tag: 'input', inputId: 'date', controlName: 'date' },
@@ -38,18 +38,19 @@ export class CustomFormComponent implements AfterViewInit{
     { type: 'select', name: 'select', label: 'Select', tag: 'select', inputId: 'select', controlName: 'select' }
   ];
 
-  constructor(private fb: FormBuilder, private modalService: NgbModal, private eRef: ElementRef) {}
+  constructor(private fb: FormBuilder, private modalService: NgbModal) {}
   
-  ngOnInit() {
+  ngOnInit() {    
     this.listingForm = this.fb.group({
       inputId: [''],
       name: [''],
       type: [''],
       placeholder: [''],
       label: [''],
-      isActive: [true],
+      hasRange: [false],
       listingWidth: ['50%'],
       tag: [''],
+      isMultiSelect: [false],
       options: this.fb.array([]),
       sectionName: [''],
       controlName: [''],
@@ -130,7 +131,8 @@ export class CustomFormComponent implements AfterViewInit{
         ...event.container.data[event.currentIndex],
         placeholder: '',
         id: this.generateUniqueId(),
-        isActive: true,
+        hasRange: false,
+        isMultiSelect: false,
         listingWidth: '50%'
       }
       
@@ -150,7 +152,7 @@ export class CustomFormComponent implements AfterViewInit{
     }
     
     this.inputList =  [
-      { type: 'text', name: 'text', label: 'Text', tag: 'input', inputId: 'text', controlName: 'text' },
+      { type: 'text', name: 'text', label: 'Text', tag: 'text', inputId: 'text', controlName: 'text' },
       { type: 'checkbox', name: 'checkbox', label: 'Checkbox', tag: 'checkbox', inputId: 'checkbox', controlName: 'checkbox' },
       { type: 'file', name: 'file', label: 'File Upload', tag: 'input', inputId: 'file', controlName: 'fileUpload' },
       { type: 'date', name: 'date', label: 'Date', tag: 'input', inputId: 'date', controlName: 'date' },

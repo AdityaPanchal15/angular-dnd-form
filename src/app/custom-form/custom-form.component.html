@@ -1,5 +1,4 @@
-<!-- <input type="text" appResizable /> -->
-<div class="header row">
+<div class="main-header row">
   <h4 class="col-md-6">Header</h4>
   <div class="d-flex justify-content-end col-md-6">
     <button class="btn btn-secondary me-2" type="button" (click)="openPreviewModal()">Preview</button>
@@ -21,7 +20,7 @@
     </div>
   </div>
   
-  <div class="col-6 form-builder-area">
+  <div class="col form-builder-area">
     <div *ngFor="let section of sectionList; let i = index" class="mb-2">
       <div
         cdkDropList
@@ -41,7 +40,19 @@
             <i class="bi bi-trash text-danger"></i>
           </span>
           <div [class]="item?.id === selectedInput?.id ? 'selected-input input-container' : 'input-container'">
-            @if(item.tag === 'input') {
+            @if(item.tag === 'text' && item.type === 'number' && item.hasRange) {
+              <label class="mb-2 form-label fw-bold">{{ item.label }}</label>
+              <div class="d-flex gap-2">
+                <input [type]="item.type" [id]="item.id" placeholder="Min" class="form-control pointer-none" />
+                <input [type]="item.type" [id]="item.id" placeholder="Max" class="form-control pointer-none" />
+              </div>
+            } @else if(item.type === 'time' && item.hasRange) {
+              <label class="mb-2 form-label fw-bold">{{ item.label }}</label>
+              <div class="d-flex gap-2">
+                <input [type]="item.type" [id]="item.id" placeholder="Min" class="form-control w-48 pointer-none" />
+                <input [type]="item.type" [id]="item.id" placeholder="Max" class="form-control w-48 pointer-none" />
+              </div>
+            } @else if(item.tag === 'text' || item.tag === 'input') {
               <label class="mb-2 form-label fw-bold">{{ item.label }}</label>
               <input [type]="item.type" [id]="item.id" [placeholder]="item.placeholder" class="form-control pointer-none" />
              } @else if(item.tag === 'radio' || item.tag === 'checkbox') {
@@ -61,15 +72,29 @@
               <label class="mb-2 form-label fw-bold pointer-none" [for]="item.id">{{ item.label }}</label>
               <textarea class="form-control" [placeholder]="item.placeholder" [id]="item.id"></textarea>
             } @else if(item.tag === 'select') {
-              <label class="mb-2 form-label fw-bold pointer-none" [for]="item.id">{{ item.label }}</label>
-              <select class="form-select" [id]="item.id">
-                <option value="1">Demo</option>
-              </select>
+              <label class="mb-2 form-label fw-bold" [for]="item.id">{{ item.label }}</label>
+              @if(item?.isMultiSelect) {
+                <div class="access-points-ddl position-relative custom-dropdown">
+                <div class="header form-control form-select" tabindex="0" >
+                    <div>
+                        <span>
+                            Option 1, Option 2, Option 3
+                        </span>
+                    </div>
+                </div>
+                </div>
+              } @else {
+                <select class="form-select pointer-none" [id]="item.id">
+                  <option value="1">Demo</option>
+                </select>
+              }
+            } @else if(item.tag === 'section') {
+              <h3 for="" class="mb-2 form-label fw-bold">{{item.label}}</h3>
+              <hr>
             }
           </div>
         </div>
       </div>
-  
     </div>
   </div>
   
@@ -100,7 +125,7 @@
     </div>
   </ng-template>
 
-  <div class="col-3">
+  <div class="col-3" *ngIf="selectedInput">
     <div class="input-properties-section">
       <app-form-properties [properties]="selectedInput" [listingForm]="listingForm"></app-form-properties>
     </div>

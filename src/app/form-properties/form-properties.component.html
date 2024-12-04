@@ -12,6 +12,15 @@
           <label for="name">Name</label>
           <input type="text" id="name" class="form-control" [class]="properties?.type === 'radio' ? 'disableSection' : ''" formControlName="name" [readonly]="properties?.type === 'radio'"/>
         </div>
+        <!-- Type -->
+        <div class="form-group my-2" *ngIf="properties?.tag === 'text'">
+          <label for="type">Type</label>
+          <select class="form-select" formControlName="type" (change)="onTypeChange()">
+            <option value="text">Text</option>
+            <option value="email">Email</option>
+            <option value="number">Number</option>
+          </select>
+        </div>
         <!-- Placeholder -->
         <div class="form-group my-2">
           <label for="placeholder">Placeholder</label>
@@ -27,11 +36,6 @@
           <label for="controlName">Control Name</label>
           <input type="text" id="controlName" class="form-control disableSection" formControlName="controlName" readonly />
         </div>
-        <!-- Is Active -->
-        <div class="form-check my-2">
-          <input type="checkbox" id="isActive" class="form-check-input" formControlName="isActive" />
-          <label for="isActive" class="form-check-label">Is Active</label>
-        </div>
         <!-- Listing Width -->
         <div class="form-row">
           <div class="form-group col-md-6 my-2">
@@ -41,6 +45,17 @@
               <option value="50%">50 %</option>
             </select>
           </div>
+        </div>
+        
+        <!-- Has Range -->
+        <div class="form-check my-2" *ngIf="listingForm.value?.type === 'number' || listingForm.value?.type === 'time'">
+          <input type="checkbox" id="hasRange" class="form-check-input" formControlName="hasRange" />
+          <label for="hasRange" class="form-check-label">Has Range</label>
+        </div>
+        <!-- Is MultiSelect Dropdown -->
+        <div class="form-check my-2" *ngIf="listingForm.value?.type === 'select'">
+          <input type="checkbox" id="isMultiSelect" class="form-check-input" formControlName="isMultiSelect" />
+          <label for="isMultiSelect" class="form-check-label">Is MultiSelect Dropdown</label>
         </div>
         
         <!-- Checkbox/Radio Group -->
@@ -64,12 +79,12 @@
             <label for="fieldRequired">Required</label>
           </div>
           <!-- Minimum -->
-          <div class="form-group my-2">
+          <div class="form-group my-2" *ngIf="listingForm.value?.type === 'number'">
             <label for="minimum">Minimum</label>
             <input type="text" id="minimum" class="form-control" formControlName="minimum" />
           </div>
           <!-- Maximum -->
-          <div class="form-group my-2">
+          <div class="form-group my-2" *ngIf="listingForm.value?.type === 'number'">
             <label for="maximum">Maximum</label>
             <input type="text" id="maximum" class="form-control" formControlName="maximum" />
           </div>
