@@ -2,3 +2,6 @@
 // @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+.custom-class-max-width1100 div.modal-dialog {
+    max-width: 1100px !important;
+}

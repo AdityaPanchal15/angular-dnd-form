@@ -51,4 +51,14 @@ export class FormPropertiesComponent {
     get getFormValidations() {
       return this.listingForm.get('formValidations') as FormGroup;
     }
+
+    generateControlName($event: any) {
+      var labelText = $event.target.value
+      labelText = labelText.split(" ");
+      var newStr = labelText[0].toLowerCase();
+      for (var i = 1; i < labelText.length; i++) {
+        newStr += labelText[i].charAt(0).toUpperCase() + labelText[i].substring(1);
+      }
+      this.listingForm.get('controlName')?.patchValue(newStr)
+    }
 }

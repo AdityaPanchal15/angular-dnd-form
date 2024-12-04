@@ -28,15 +28,14 @@ export class CustomFormComponent implements AfterViewInit{
   selectedInput: any;
 
   inputList = [
-    { type: 'text', name: 'text', label: 'Text', tag: 'input', inputId: 'text' },
-    { type: 'checkbox', name: 'checkbox', label: 'Checkbox', tag: 'checkbox', inputId: 'checkbox' },
-    { type: 'file', name: 'file', label: 'File Upload', tag: 'input', inputId: 'file' },
-    { type: 'date', name: 'date', label: 'Date', tag: 'input', inputId: 'date' },
-    { type: 'time', name: 'time', label: 'Time', tag: 'input', inputId: 'time' },
-    { type: 'radio', name: 'radio', label: 'Radio', tag: 'radio', inputId: 'radio' },
-    { type: 'textarea', name: 'textarea', label: 'Text Area', tag: 'textarea', inputId: 'textarea' },
-    { type: 'select', name: 'select', label: 'Select', tag: 'select', inputId: 'select' },
-    {type: 'section', name: 'section', label: 'Section', tag:'section', inputId: 'section'}
+    { type: 'text', name: 'text', label: 'Text', tag: 'input', inputId: 'text', controlName: 'text' },
+    { type: 'checkbox', name: 'checkbox', label: 'Checkbox', tag: 'checkbox', inputId: 'checkbox', controlName: 'checkbox' },
+    { type: 'file', name: 'file', label: 'File Upload', tag: 'input', inputId: 'file', controlName: 'fileUpload' },
+    { type: 'date', name: 'date', label: 'Date', tag: 'input', inputId: 'date', controlName: 'date' },
+    { type: 'time', name: 'time', label: 'Time', tag: 'input', inputId: 'time', controlName: 'time' },
+    { type: 'radio', name: 'radio', label: 'Radio', tag: 'radio', inputId: 'radio', controlName: 'radio' },
+    { type: 'textarea', name: 'textarea', label: 'Text Area', tag: 'textarea', inputId: 'textarea', controlName: 'textArea' },
+    { type: 'select', name: 'select', label: 'Select', tag: 'select', inputId: 'select', controlName: 'select' }
   ];
 
   constructor(private fb: FormBuilder, private modalService: NgbModal, private eRef: ElementRef) {}
@@ -48,7 +47,6 @@ export class CustomFormComponent implements AfterViewInit{
       type: [''],
       placeholder: [''],
       label: [''],
-      title: [''],
       isActive: [true],
       listingWidth: ['50%'],
       tag: [''],
@@ -128,7 +126,6 @@ export class CustomFormComponent implements AfterViewInit{
       event.container.data[event.currentIndex] = {
         ...event.container.data[event.currentIndex],
         placeholder: '',
-        description: '',
         id: this.generateUniqueId(),
         isActive: true,
         listingWidth: '50%'
@@ -136,15 +133,14 @@ export class CustomFormComponent implements AfterViewInit{
     }
     
     this.inputList =  [
-      { type: 'text', name: 'text', label: 'Text', tag: 'input', inputId: 'text' },
-      { type: 'checkbox', name: 'checkbox', label: 'Checkbox', tag: 'checkbox', inputId: 'checkbox' },
-      { type: 'file', name: 'file', label: 'File Upload', tag: 'input', inputId: 'file' },
-      { type: 'date', name: 'date', label: 'Date', tag: 'input', inputId: 'date' },
-      { type: 'time', name: 'time', label: 'Time', tag: 'input', inputId: 'time' },
-      { type: 'radio', name: 'radio', label: 'Radio', tag: 'radio', inputId: 'radio' },
-      { type: 'textarea', name: 'textarea', label: 'Text Area', tag: 'textarea', inputId: 'textarea' },
-      { type: 'select', name: 'select', label: 'Select', tag: 'select', inputId: 'select' },
-      {type: 'section', name: 'section', label: 'Section', tag:'section', inputId: 'section'}
+      { type: 'text', name: 'text', label: 'Text', tag: 'input', inputId: 'text', controlName: 'text' },
+      { type: 'checkbox', name: 'checkbox', label: 'Checkbox', tag: 'checkbox', inputId: 'checkbox', controlName: 'checkbox' },
+      { type: 'file', name: 'file', label: 'File Upload', tag: 'input', inputId: 'file', controlName: 'fileUpload' },
+      { type: 'date', name: 'date', label: 'Date', tag: 'input', inputId: 'date', controlName: 'date' },
+      { type: 'time', name: 'time', label: 'Time', tag: 'input', inputId: 'time' , controlName: 'time'},
+      { type: 'radio', name: 'radio', label: 'Radio', tag: 'radio', inputId: 'radio', controlName: 'radio'},
+      { type: 'textarea', name: 'textarea', label: 'Text Area', tag: 'textarea', inputId: 'textarea', controlName: 'textArea' },
+      { type: 'select', name: 'select', label: 'Select', tag: 'select', inputId: 'select', controlName: 'select' }
     ];
   }
   
@@ -195,7 +191,7 @@ export class CustomFormComponent implements AfterViewInit{
   }
   
   openPreviewModal() {
-    const previewRef = this.modalService.open(FormPreviewComponent, { centered: true });
+    const previewRef = this.modalService.open(FormPreviewComponent, { centered: true, backdrop: 'static', scrollable: true, windowClass: 'custom-class-max-width1100'  });
     previewRef.componentInstance.formData = this.sectionList;
     previewRef.componentInstance.formPreviewModal.subscribe(() => { 
       this.modalService.dismissAll();
