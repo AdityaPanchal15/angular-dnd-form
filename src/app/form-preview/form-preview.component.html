@@ -10,7 +10,7 @@
       <h3>{{ section.sectionName }}</h3>
       <hr>
     </div>
-      <div class="inner-section-block  example-box1" [style.width]="item.listingWidth" *ngFor="let item of section.done || []">
+      <div class="inner-section-block example-box1" [style.width]="item.listingWidth" *ngFor="let item of section.inputFields || []">
         <div class="input-container">
             @if(item.tag === 'text' && item.type === 'number' && item.hasRange) {
               <label class="mb-2 form-label fw-bold">{{ item.label }}</label>
@@ -56,7 +56,7 @@
                 </div>
               } @else {
                 <select class="form-select pointer-none" [id]="item.itemId">
-                  <option value="1">Demo</option>
+                  <option value="1">Option 1</option>
                 </select>
               }
             }

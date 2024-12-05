@@ -2,111 +2,154 @@
 <div class="p-2">
   <div *ngIf="listingForm">
       <form [formGroup]="listingForm">
-        <!-- Id -->
-        <div class="form-group my-2">
-          <label class="mb-2 form-label fw-bold" for="inputId">Id</label>
-          <input type="text" id="inputId" class="form-control" formControlName="inputId" />
-        </div>
-        <!-- Name -->
-        <div class="form-group my-2">
-          <label class="mb-2 form-label fw-bold" for="name">Name</label>
-          <input type="text" id="name" class="form-control" [class]="properties?.type === 'radio' ? 'disableSection' : ''" formControlName="name" [readonly]="properties?.type === 'radio'"/>
-        </div>
-        <!-- Type -->
-        <div class="form-group my-2" *ngIf="properties?.tag === 'text'">
-          <label for="type" class="mb-2 form-label fw-bold">Type</label>
-          <select class="form-select" formControlName="type" (change)="onTypeChange()">
-            <option value="text">Text</option>
-            <option value="email">Email</option>
-            <option value="number">Number</option>
-          </select>
-        </div>
-        <!-- Placeholder -->
-        <div class="form-group my-2">
-          <label for="placeholder" class="mb-2 form-label fw-bold">Placeholder</label>
-          <input type="text" id="placeholder" class="form-control" formControlName="placeholder" />
-        </div>
-        <!-- Label -->
-        <div class="form-group my-2">
-          <label for="label" class="mb-2 form-label fw-bold">Label</label>
-          <input type="text" id="label" class="form-control" formControlName="label" (input)="generateControlName($event)"/>
-        </div>
-        <!-- Control Name -->
-        <div class="form-group my-2">
-          <label for="controlName" class="mb-2 form-label fw-bold">Control Name</label>
-          <input type="text" id="controlName" class="form-control disableSection" formControlName="controlName" readonly />
-        </div>
-        <!-- Listing Width -->
-        <div class="form-row">
-          <div class="form-group col-md-6 my-2">
-            <label for="listingWidth" class="mb-2 form-label fw-bold">Listing Width</label>
-            <select class="form-select" id="listingWidth" formControlName="listingWidth">
-              <option value="100%">100 %</option>
-              <option value="50%">50 %</option>
-            </select>
-          </div>
-        </div>
-        
-        <!-- Has Range -->
-        <div class="form-check my-2" *ngIf="listingForm.value?.type === 'number' || listingForm.value?.type === 'time'">
-          <input type="checkbox" id="hasRange" class="form-check-input" formControlName="hasRange" />
-          <label for="hasRange" class="fw-bold form-check-label mb-2">Has Range</label>
-        </div>
-        <!-- Is MultiSelect Dropdown -->
-        <div class="form-check my-2" *ngIf="listingForm.value?.type === 'select'">
-          <input type="checkbox" id="isMultiSelect" class="form-check-input" formControlName="isMultiSelect" />
-          <label for="isMultiSelect" class="form-check-label fw-bold mb-2">Is MultiSelect Dropdown</label>
-        </div>
-        
-        <!-- Checkbox/Radio Group -->
-        <div class="my-3" *ngIf="properties?.tag === 'radio' || properties?.tag === 'checkbox'">
-          <h4>Options</h4>
-          <div formArrayName="options">
-            <div *ngFor="let option of getOptions.controls; let i = index" [formGroupName]="i" class="mb-3">
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="mb-0">Option {{ i + 1 }}</h6>
-                <span (click)="removeOption(i)" class="removeOption"><i class="bi bi-trash text-danger"></i></span>
-                <!-- <button type="button" class="btn btn-danger mt-2" (click)="removeOption(i)">Remove</button> -->
-              </div>
-              <hr>
-              <div class="form-row d-flex align-items-center mb-3">
-                <div class="form-group me-3">
-                  <label for="label" class="mb-2 form-label fw-bold">Label</label>
-                  <input formControlName="label" class="form-control" placeholder="Label" />
+        <!-- Accordion Changes -->
+        <div class="accordion" id="accordionExample">
+          <!-- Properties -->
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button fw-bolder" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Properties
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <!-- Type -->
+                <div class="form-group my-2" *ngIf="properties?.tag === 'text'">
+                  <label for="type" class="mb-2 form-label ">Type</label>
+                  <select class="form-select" formControlName="type" (change)="onTypeChange()">
+                    <option value="text">Text</option>
+                    <option value="email">Email</option>
+                    <option value="number">Number</option>
+                  </select>
                 </div>
-                <div class="form-group">
-                  <label for="value" class="mb-2 form-label fw-bold">Value</label>
-                  <input formControlName="value" class="form-control " placeholder="Value" />
+                <!-- Label -->
+                <div class="form-group my-2">
+                  <label for="label" class="mb-2 form-label ">Label</label>
+                  <input type="text" id="label" class="form-control" formControlName="label" (input)="generateControlName($event)"/>
+                </div>
+                <!-- Placeholder -->
+                <div class="form-group my-2" *ngIf="properties?.tag != 'radio' && properties?.tag != 'checkbox'">
+                  <label for="placeholder" class="mb-2 form-label ">Placeholder</label>
+                  <input type="text" id="placeholder" class="form-control" formControlName="placeholder" />
+                </div>
+                <!-- Listing Width -->
+                <div class="form-row">
+                  <div class="form-group col-md-6 my-2">
+                    <label for="listingWidth" class="mb-2 form-label ">Listing Width</label>
+                    <select class="form-select" id="listingWidth" formControlName="listingWidth">
+                      <option value="100%">100 %</option>
+                      <option value="50%">50 %</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- Has Range -->
+                <div class="form-check my-2" *ngIf="listingForm.value?.type === 'number' || listingForm.value?.type === 'time'">
+                  <input type="checkbox" id="hasRange" class="form-check-input" formControlName="hasRange" />
+                  <label for="hasRange" class=" form-check-label form-label mb-2">Has Range</label>
+                </div>
+                <!-- Is MultiSelect Dropdown -->
+                <div class="form-check my-2" *ngIf="listingForm.value?.type === 'select'">
+                  <input type="checkbox" id="isMultiSelect" class="form-check-input" formControlName="isMultiSelect" />
+                  <label for="isMultiSelect" class="form-check-label form-label mb-2">Is Multi Select Dropdown</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Validations -->
+          <div class="accordion-item" formGroupName="formValidations">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed fw-bolder" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Validations
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                  <!-- Is Required -->
+                  <div class="form-check col-md-6 my-2">
+                    <input type="checkbox" class="form-check-input" id="fieldRequired" formControlName="fieldRequired">
+                    <label for="fieldRequired" class="mb-2 form-label ">Required</label>
+                  </div>
+                  <!-- Minimum -->
+                  <div class="form-group my-2" *ngIf="listingForm.value?.type === 'number'">
+                    <label for="minimum" class="mb-2 form-label ">Minimum</label>
+                    <input type="text" id="minimum" class="form-control" formControlName="minimum" />
+                  </div>
+                  <!-- Maximum -->
+                  <div class="form-group my-2" *ngIf="listingForm.value?.type === 'number'">
+                    <label for="maximum" class="mb-2 form-label ">Maximum</label>
+                    <input type="text" id="maximum" class="form-control" formControlName="maximum" />
+                  </div>
+                  <!-- Regex -->
+                  <div class="form-group my-2">
+                    <label for="regex" class="mb-2 form-label ">Regex</label>
+                    <input type="text" id="regex" class="form-control" formControlName="regex" />
+                  </div>
+              </div>
+            </div>
+          </div>
+          <!-- Edit Options -->
+          @if(properties?.tag === 'radio' || properties?.tag === 'checkbox' || properties?.tag === 'select') {
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed fw-bolder" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  Edit Options
+                </button>
+              </h2>
+              <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <div formArrayName="options">
+                    <div *ngFor="let option of getOptions.controls; let i = index" [formGroupName]="i" class="mb-3">
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="mb-0">Option {{ i + 1 }}</h6>
+                        <span (click)="removeOption(i)" class="removeOption"><i class="bi bi-trash text-danger"></i></span>
+                        <!-- <button type="button" class="btn btn-danger mt-2" (click)="removeOption(i)">Remove</button> -->
+                      </div>
+                      <hr>
+                      <div class="form-row d-flex align-items-center mb-3">
+                        <div class="form-group me-3">
+                          <label for="label" class="mb-2 form-label ">Label</label>
+                          <input formControlName="label" class="form-control" placeholder="Label" />
+                        </div>
+                        <div class="form-group">
+                          <label for="value" class="mb-2 form-label ">Value</label>
+                          <input formControlName="value" class="form-control " placeholder="Value" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+          <!-- HTML Attributes -->
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed fw-bolder" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAttributes" aria-expanded="false" aria-controls="collapseAttributes">
+                HTML Attributes
+              </button>
+            </h2>
+            <div id="collapseAttributes" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                 <!--Html Id -->
+                <div class="form-group my-2">
+                  <label class="mb-2 form-label " for="inputId">HTML Id</label>
+                  <input type="text" id="inputId" class="form-control" formControlName="inputId" />
+                </div>
+                <!-- Name -->
+                <div class="form-group my-2">
+                  <label class="mb-2 form-label " for="name">Name</label>
+                  <input type="text" id="name" class="form-control" [class]="properties?.type === 'radio' ? 'disableSection' : ''" formControlName="name" [readonly]="properties?.type === 'radio'"/>
+                </div>
+                <!-- Control Name -->
+                <div class="form-group my-2">
+                  <label for="controlName" class="mb-2 form-label ">Control Name</label>
+                  <input type="text" id="controlName" class="form-control disableSection" formControlName="controlName" readonly />
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div formGroupName="formValidations">
-          <h4>Validations</h4>
-          <hr>
-          <!-- Is Required -->
-          <div class="form-check col-md-6 my-2">
-            <input type="checkbox" class="form-check-input" id="fieldRequired" formControlName="fieldRequired">
-            <label for="fieldRequired" class="mb-2 form-label fw-bold">Required</label>
-          </div>
-          <!-- Minimum -->
-          <div class="form-group my-2" *ngIf="listingForm.value?.type === 'number'">
-            <label for="minimum" class="mb-2 form-label fw-bold">Minimum</label>
-            <input type="text" id="minimum" class="form-control" formControlName="minimum" />
-          </div>
-          <!-- Maximum -->
-          <div class="form-group my-2" *ngIf="listingForm.value?.type === 'number'">
-            <label for="maximum" class="mb-2 form-label fw-bold">Maximum</label>
-            <input type="text" id="maximum" class="form-control" formControlName="maximum" />
-          </div>
-          <!-- Regex -->
-          <div class="form-group my-2">
-            <label for="regex" class="mb-2 form-label fw-bold">Regex</label>
-            <input type="text" id="regex" class="form-control" formControlName="regex" />
-          </div>
-        </div>
       </form>
   </div>
 </div>

@@ -23,7 +23,7 @@ export class FormPreviewComponent {
 
     // Iterate through sections to dynamically create form controls
     this.formData.forEach((section: any) => {
-      section.done.forEach((field: any) => {
+      section.inputFields.forEach((field: any) => {
         // Build validators for each field
         const validators = [];
         if (field.formValidations?.fieldRequired) {

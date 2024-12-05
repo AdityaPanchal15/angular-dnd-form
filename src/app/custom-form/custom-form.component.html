@@ -24,7 +24,8 @@
     <div *ngFor="let section of sectionList; let i = index" class="mb-2">
       <div
         cdkDropList
-        [cdkDropListData]="section.done || []"
+        cdkDropListOrientation="mixed"
+        [cdkDropListData]="section.inputFields || []"
         [cdkDropListConnectedTo]="getConnectedDropLists(i)"
         id="section-{{i}}"
         class="form-edit-section"
@@ -35,7 +36,7 @@
           <span (click)="addSection(content, section)" class="editIcon"><i class="bi bi-pencil"></i></span>
           <span (click)="deleteSection(section)" class="deleteSection"><i class="bi bi-trash text-danger"></i></span>
         </div>
-        <div class="inner-section-block position-relative" [style.width]="item.listingWidth" *ngFor="let item of section.done || []"  (click)="onSelectInput(item)" cdkDrag>
+        <div class="inner-section-block position-relative" [style.width]="item.listingWidth" *ngFor="let item of section.inputFields || []"  (click)="onSelectInput(item)" cdkDrag>
           <span (click)="deleteInput(item)" *ngIf="item?.id === selectedInput?.id" class="deleteInput">
             <i class="bi bi-trash text-danger"></i>
           </span>
@@ -67,7 +68,7 @@
                 />
                 <label class="form-check-label" [for]="option.id">{{ option.label }}</label>
               </div>
-              <button class="btn btn-link p-0" (click)="addRadioOption(item)">+ Add Option</button>
+              <button class="btn btn-link p-0 text-decoration-none fw-semi-bold font-small" (click)="addRadioOption(item)">+ Add Option</button>
             } @else if(item.tag === 'textarea') {
               <label class="mb-2 form-label fw-bold pointer-none" [for]="item.id">{{ item.label }}</label>
               <textarea class="form-control" [placeholder]="item.placeholder" [id]="item.id"></textarea>
@@ -75,18 +76,34 @@
               <label class="mb-2 form-label fw-bold" [for]="item.id">{{ item.label }}</label>
               @if(item?.isMultiSelect) {
                 <div class="access-points-ddl position-relative custom-dropdown">
-                <div class="header form-control form-select" tabindex="0" >
-                    <div>
-                        <span>
-                            Option 1, Option 2, Option 3
-                        </span>
-                    </div>
+                  <div class="header form-control form-select" tabindex="0" >
+                      <div>
+                          <span>
+                              Option 1, Option 2, Option 3
+                          </span>
+                      </div>
+                  </div>
                 </div>
+                <div class="ms-2 mb-1">
+                  <div *ngFor="let option of item.options;let i = index">
+                    {{ i+1 }}. {{ option.label }}
+                  </div>
+                  <div>
+                    <button class="btn btn-link p-0 text-decoration-none fw-semi-bold font-small" (click)="addRadioOption(item)" >+ Add Option</button>
+                  </div>
                 </div>
               } @else {
-                <select class="form-select pointer-none" [id]="item.id">
-                  <option value="1">Demo</option>
+                <select class="form-select pointer-none mb-1" [id]="item.id">
+                  <option value="1">Option 1</option>
                 </select>
+                <div class="ms-2 mb-1">
+                  <div *ngFor="let option of item.options;let i = index">
+                    {{ i+1 }}. {{ option.label }}
+                  </div>
+                  <div>
+                    <button class="btn btn-link p-0 text-decoration-none fw-semi-bold font-small" (click)="addRadioOption(item)" >+ Add Option</button>
+                  </div>
+                </div>
               }
             } @else if(item.tag === 'section') {
               <h3 for="" class="mb-2 form-label fw-bold">{{item.label}}</h3>

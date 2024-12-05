@@ -8,9 +8,17 @@
 
 .disableSection {
   pointer-events: none;
-  background-color: #e9ecef;
+  background-color: #e9ecef !important;
 }
 
 .w-48 {
   width: 48%;
+}
+
+.fw-semi-bold {
+  font-weight: 500 !important;
+}
+
+.font-small {
+  font-size: small !important;
 }
