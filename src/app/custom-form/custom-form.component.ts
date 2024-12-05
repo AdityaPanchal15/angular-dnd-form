@@ -19,7 +19,7 @@ export class CustomFormComponent implements AfterViewInit{
   @ViewChildren(CdkDropList) dropLists!: QueryList<CdkDropList>;
   closeResult: string = '';
   connectedDropLists: any[] = [];
-  done: any = [];
+  inputFields: any = [];
   formValidations!: FormGroup;
   listingForm!: FormGroup;
   properties: any;
@@ -65,9 +65,9 @@ export class CustomFormComponent implements AfterViewInit{
     this.listingForm.valueChanges.subscribe((res) => {
       res.id = this.selectedInput?.id;
       this.sectionList.forEach((section: any) => {
-        const itemToUpdate = section.done.findIndex((item: any) => item.id === res.id);
+        const itemToUpdate = section.inputFields.findIndex((item: any) => item.id === res.id);
         if (itemToUpdate >= 0) {
-          section.done[itemToUpdate] = res; // Update properties of the item directly
+          section.inputFields[itemToUpdate] = res; // Update properties of the item directly
         }
       });
     })
@@ -133,22 +133,24 @@ export class CustomFormComponent implements AfterViewInit{
         id: this.generateUniqueId(),
         hasRange: false,
         isMultiSelect: false,
-        listingWidth: '50%'
+        listingWidth: '50%',
+        formValidations: {
+          fieldRequired: false,
+          minimum: '',
+          maximum: '',
+          regex: ''
+        }
       }
       
       // Handle radio group creation
-      if (newItem.tag === 'radio') {
+      if (newItem.tag === 'radio' || newItem.tag === 'checkbox' || newItem.tag === 'select') {
         newItem.options = [{ id: this.generateUniqueId(), label: 'Option 1', value: 'Option 1' }];
-        newItem.name = `radio-group-${newItem.id}`;
+        newItem.name = `${newItem.tag}-group-${newItem.id}`;
       }
       
-      // Handle checkbox group creation
-      if (newItem.tag === 'checkbox') {
-        newItem.options = [{ id: this.generateUniqueId(), label: 'Option 1', value: 'Option 1' }];
-        newItem.name = `checkbox-group-${newItem.id}`;
-      }
       
       event.container.data[event.currentIndex] = newItem;
+      console.log(this.sectionList);
     }
     
     this.inputList =  [
@@ -184,7 +186,7 @@ export class CustomFormComponent implements AfterViewInit{
       this.sectionList.push({
         sectionName: this.listingForm.value.sectionName,
         id: this.sectionList.length, // You can adjust this to set a unique id, depending on your logic
-        done: []
+        inputFields: []
       });
     } else {
       // Section exists, update it (optional if you want to modify existing section)
@@ -281,7 +283,7 @@ export class CustomFormComponent implements AfterViewInit{
       if (result.isConfirmed) {
         this.sectionList = this.sectionList.map(section => ({
           ...section,
-          done: section.done.filter((item: any) => item.id !== input.id)
+          inputFields: section.inputFields.filter((item: any) => item.id !== input.id)
         }));
       } else {
         return;
