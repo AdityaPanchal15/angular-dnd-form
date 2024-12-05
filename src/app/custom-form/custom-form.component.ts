@@ -148,9 +148,7 @@ export class CustomFormComponent implements AfterViewInit{
         newItem.name = `${newItem.tag}-group-${newItem.id}`;
       }
       
-      
       event.container.data[event.currentIndex] = newItem;
-      console.log(this.sectionList);
     }
     
     this.inputList =  [
