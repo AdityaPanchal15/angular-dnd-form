@@ -118,13 +118,13 @@
 
   <ng-template #content let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Add Section</h4>
+      <h4 class="modal-title" id="modal-basic-title">{{listingForm.value.sectionName != '' ? 'Edit' : 'Add'}} Section</h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
     </div>
     <div class="modal-body">
-      <form [formGroup]="listingForm">
+      <form [formGroup]="listingForm" (keydown.enter)="saveSection()">
         <div class="mb-3">
-          <label for="dateOfBirth">Section Name</label>
+          <label for="dateOfBirth" class="form-label fw-bold">Section Name</label>
           <div class="input-group">
             <input
               formControlName = "sectionName"
