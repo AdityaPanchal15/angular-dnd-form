@@ -22,3 +22,8 @@
 .font-small {
   font-size: small !important;
 }
+
+.required:after {
+  color: #f82d40;
+  content: " *";
+}

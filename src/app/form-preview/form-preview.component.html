@@ -13,22 +13,22 @@
       <div class="inner-section-block example-box1" [style.width]="item.listingWidth" *ngFor="let item of section.inputFields || []">
         <div class="input-container">
             @if(item.tag === 'text' && item.type === 'number' && item.hasRange) {
-              <label class="mb-2 form-label fw-bold">{{ item.label }}</label>
+              <label class="mb-2 form-label fw-bold" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
               <div class="d-flex gap-2">
                 <input [type]="item.type" [id]="item.id" placeholder="Min" class="form-control pointer-none" />
                 <input [type]="item.type" [id]="item.id" placeholder="Max" class="form-control pointer-none" />
               </div>
             } @else if(item.type === 'time' && item.hasRange) {
-              <label class="mb-2 form-label fw-bold">{{ item.label }}</label>
+              <label class="mb-2 form-label fw-bold" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
               <div class="d-flex gap-2">
                 <input [type]="item.type" [id]="item.id" placeholder="Min" class="form-control w-48 pointer-none" />
                 <input [type]="item.type" [id]="item.id" placeholder="Max" class="form-control w-48 pointer-none" />
               </div>
             } @else if(item.tag === 'text' || item.tag === 'input') {
-              <label class="mb-2 form-label fw-bold" [for]="item.itemId">{{ item.label }}</label>
+              <label class="mb-2 form-label fw-bold" [for]="item.itemId" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
               <input [type]="item.type" [id]="item.itemId" [placeholder]="item.placeholder" class="form-control pointer-none" />
             } @else if(item.tag === 'radio' || item.tag === 'checkbox') {
-              <label class="mb-2 form-label fw-bold pointer-none">{{ item.label }}</label>
+              <label class="mb-2 form-label fw-bold pointer-none" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
               <div *ngFor="let option of item.options" class="form-check">
                 <input
                   class="form-check-input pointer-none"
@@ -40,10 +40,10 @@
                 <label class="form-check-label" [for]="option.id">{{ option.label }}</label>
               </div>
             } @else if(item.tag === 'textarea') {
-              <label class="mb-2 form-label fw-bold" [for]="item.itemId">{{ item.label }}</label>
+              <label class="mb-2 form-label fw-bold" [for]="item.itemId" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
               <textarea class="form-control pointer-none" [placeholder]="item.placeholder" [id]="item.itemId"></textarea>
             } @else if(item.tag === 'select') {
-              <label class="mb-2 form-label fw-bold" [for]="item.itemId">{{ item.label }}</label>
+              <label class="mb-2 form-label fw-bold" [for]="item.itemId" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
               @if(item?.isMultiSelect) {
                 <div class="access-points-ddl position-relative custom-dropdown">
                 <div class="header form-control form-select" tabindex="0" >
