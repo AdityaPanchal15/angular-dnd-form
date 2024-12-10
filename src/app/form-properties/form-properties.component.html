@@ -133,12 +133,7 @@
                  <!--Html Id -->
                 <div class="form-group my-2">
                   <label class="mb-2 form-label " for="inputId">HTML Id</label>
-                  <input type="text" id="inputId" class="form-control" formControlName="inputId" />
-                </div>
-                <!-- Name -->
-                <div class="form-group my-2">
-                  <label class="mb-2 form-label " for="name">Name</label>
-                  <input type="text" id="name" class="form-control" [class]="properties?.type === 'radio' ? 'disableSection' : ''" formControlName="name" [readonly]="properties?.type === 'radio'"/>
+                  <input type="text" id="inputId" class="form-control disableSection" formControlName="inputId" />
                 </div>
                 <!-- Control Name -->
                 <div class="form-group my-2">

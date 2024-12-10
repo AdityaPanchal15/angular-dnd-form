@@ -15,14 +15,14 @@
             @if(item.tag === 'text' && item.type === 'number' && item.hasRange) {
               <label class="mb-2 form-label fw-bold" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
               <div class="d-flex gap-2">
-                <input [type]="item.type" [id]="item.id" placeholder="Min" class="form-control pointer-none" />
-                <input [type]="item.type" [id]="item.id" placeholder="Max" class="form-control pointer-none" />
+                <input [type]="item.type" [id]="item.inputId" placeholder="Min" class="form-control pointer-none" />
+                <input [type]="item.type" [id]="item.inputId" placeholder="Max" class="form-control pointer-none" />
               </div>
             } @else if(item.type === 'time' && item.hasRange) {
               <label class="mb-2 form-label fw-bold" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
               <div class="d-flex gap-2">
-                <input [type]="item.type" [id]="item.id" placeholder="Min" class="form-control w-48 pointer-none" />
-                <input [type]="item.type" [id]="item.id" placeholder="Max" class="form-control w-48 pointer-none" />
+                <input [type]="item.type" [id]="item.inputId" placeholder="Min" class="form-control w-48 pointer-none" />
+                <input [type]="item.type" [id]="item.inputId" placeholder="Max" class="form-control w-48 pointer-none" />
               </div>
             } @else if(item.tag === 'text' || item.tag === 'input') {
               <label class="mb-2 form-label fw-bold" [for]="item.itemId" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
@@ -33,11 +33,11 @@
                 <input
                   class="form-check-input pointer-none"
                   [type]="item.type"
-                  [name]="item.name"
+                  [name]="item.inputId"
                   [value]="option.value"
-                  [id]="option.id"
+                  [id]="option.inputId"
                 />
-                <label class="form-check-label" [for]="option.id">{{ option.label }}</label>
+                <label class="form-check-label" [for]="option.inputId">{{ option.label }}</label>
               </div>
             } @else if(item.tag === 'textarea') {
               <label class="mb-2 form-label fw-bold" [for]="item.itemId" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>

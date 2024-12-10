@@ -37,43 +37,43 @@
           <span (click)="deleteSection(section)" class="deleteSection"><i class="bi bi-trash text-danger"></i></span>
         </div>
         <div class="inner-section-block position-relative" [style.width]="item.listingWidth" *ngFor="let item of section.inputFields || []"  (click)="onSelectInput(item)" cdkDrag>
-          <span (click)="deleteInput(item)" *ngIf="item?.id === selectedInput?.id" class="deleteInput">
+          <span (click)="deleteInput(item)" *ngIf="item?.inputId === selectedInput?.inputId" class="deleteInput">
             <i class="bi bi-trash text-danger"></i>
           </span>
-          <div [class]="item?.id === selectedInput?.id ? 'selected-input input-container' : 'input-container'">
+          <div [class]="item?.inputId === selectedInput?.inputId ? 'selected-input input-container' : 'input-container'">
             @if(item.tag === 'text' && item.type === 'number' && item.hasRange) {
               <label class="mb-2 form-label fw-bold" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
               <div class="d-flex gap-2">
-                <input [type]="item.type" [id]="item.id" placeholder="Min" class="form-control pointer-none" />
-                <input [type]="item.type" [id]="item.id" placeholder="Max" class="form-control pointer-none" />
+                <input [type]="item.type" [id]="item.inputId" placeholder="Min" class="form-control pointer-none" />
+                <input [type]="item.type" [id]="item.inputId" placeholder="Max" class="form-control pointer-none" />
               </div>
             } @else if(item.type === 'time' && item.hasRange) {
               <label class="mb-2 form-label fw-bold" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
               <div class="d-flex gap-2">
-                <input [type]="item.type" [id]="item.id" placeholder="Min" class="form-control w-48 pointer-none" />
-                <input [type]="item.type" [id]="item.id" placeholder="Max" class="form-control w-48 pointer-none" />
+                <input [type]="item.type" [id]="item.inputId" placeholder="Min" class="form-control w-48 pointer-none" />
+                <input [type]="item.type" [id]="item.inputId" placeholder="Max" class="form-control w-48 pointer-none" />
               </div>
             } @else if(item.tag === 'text' || item.tag === 'input') {
               <label class="mb-2 form-label fw-bold" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
-              <input [type]="item.type" [id]="item.id" [placeholder]="item.placeholder" class="form-control pointer-none" />
+              <input [type]="item.type" [id]="item.inputId" [placeholder]="item.placeholder" class="form-control pointer-none" />
              } @else if(item.tag === 'radio' || item.tag === 'checkbox') {
               <label class="mb-2 form-label fw-bold pointer-none" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
               <div *ngFor="let option of item.options" class="form-check">
                 <input
                   class="form-check-input pointer-none"
                   [type]="item.type"
-                  [name]="item.name"
+                  [name]="item.inputId"
                   [value]="option.value"
-                  [id]="option.id"
+                  [id]="option.inputId"
                 />
-                <label class="form-check-label" [for]="option.id">{{ option.label }}</label>
+                <label class="form-check-label" [for]="option.inputId">{{ option.label }}</label>
               </div>
               <button class="btn btn-link p-0 text-decoration-none fw-semi-bold font-small" (click)="addRadioOption(item)">+ Add Option</button>
             } @else if(item.tag === 'textarea') {
-              <label class="mb-2 form-label fw-bold pointer-none" [for]="item.id" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
-              <textarea class="form-control" [placeholder]="item.placeholder" [id]="item.id"></textarea>
+              <label class="mb-2 form-label fw-bold pointer-none" [for]="item.inputId" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
+              <textarea class="form-control" [placeholder]="item.placeholder" [id]="item.inputId"></textarea>
             } @else if(item.tag === 'select') {
-              <label class="mb-2 form-label fw-bold" [for]="item.id" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
+              <label class="mb-2 form-label fw-bold" [for]="item.inputId" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
               @if(item?.isMultiSelect) {
                 <div class="access-points-ddl position-relative custom-dropdown">
                   <div class="header form-control form-select" tabindex="0" >
@@ -93,7 +93,7 @@
                   </div>
                 </div>
               } @else {
-                <select class="form-select pointer-none mb-1" [id]="item.id">
+                <select class="form-select pointer-none mb-1" [id]="item.inputId">
                   <option value="1">Option 1</option>
                 </select>
                 <div class="ms-2 mb-1">

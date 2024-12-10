@@ -28,14 +28,14 @@ export class CustomFormComponent implements AfterViewInit{
   selectedInput: any;
 
   inputList = [
-    { type: 'text', name: 'text', label: 'Text', tag: 'text', inputId: 'text', controlName: 'text' },
-    { type: 'checkbox', name: 'checkbox', label: 'Checkbox', tag: 'checkbox', inputId: 'checkbox', controlName: 'checkbox' },
-    { type: 'file', name: 'file', label: 'File Upload', tag: 'input', inputId: 'file', controlName: 'fileUpload' },
-    { type: 'date', name: 'date', label: 'Date', tag: 'input', inputId: 'date', controlName: 'date' },
-    { type: 'time', name: 'time', label: 'Time', tag: 'input', inputId: 'time', controlName: 'time' },
-    { type: 'radio', name: 'radio', label: 'Radio', tag: 'radio', inputId: 'radio', controlName: 'radio' },
-    { type: 'textarea', name: 'textarea', label: 'Text Area', tag: 'textarea', inputId: 'textarea', controlName: 'textArea' },
-    { type: 'select', name: 'select', label: 'Select', tag: 'select', inputId: 'select', controlName: 'select' }
+    { type: 'text', label: 'Text', tag: 'text', controlName: 'text' },
+    { type: 'checkbox', label: 'Checkbox', tag: 'checkbox', controlName: 'checkbox' },
+    { type: 'file', label: 'File Upload', tag: 'input', controlName: 'fileUpload' },
+    { type: 'date', label: 'Date', tag: 'input', controlName: 'date' },
+    { type: 'time', label: 'Time', tag: 'input',controlName: 'time' },
+    { type: 'radio', label: 'Radio', tag: 'radio', controlName: 'radio' },
+    { type: 'textarea', label: 'Text Area', tag: 'textarea', controlName: 'textArea' },
+    { type: 'select', label: 'Select', tag: 'select', controlName: 'select' }
   ];
 
   constructor(private fb: FormBuilder, private modalService: NgbModal) {}
@@ -43,7 +43,6 @@ export class CustomFormComponent implements AfterViewInit{
   ngOnInit() {    
     this.listingForm = this.fb.group({
       inputId: [''],
-      name: [''],
       type: [''],
       placeholder: [''],
       label: [''],
@@ -63,9 +62,9 @@ export class CustomFormComponent implements AfterViewInit{
     });
     
     this.listingForm.valueChanges.subscribe((res) => {
-      res.id = this.selectedInput?.id;
+      res.inputId = this.selectedInput?.inputId;
       this.sectionList.forEach((section: any) => {
-        const itemToUpdate = section.inputFields.findIndex((item: any) => item.id === res.id);
+        const itemToUpdate = section.inputFields.findIndex((item: any) => item.inputId === res.inputId);
         if (itemToUpdate >= 0) {
           section.inputFields[itemToUpdate] = res; // Update properties of the item directly
         }
@@ -130,7 +129,7 @@ export class CustomFormComponent implements AfterViewInit{
       newItem = {
         ...event.container.data[event.currentIndex],
         placeholder: '',
-        id: this.generateUniqueId(),
+        inputId: this.generateUniqueId(),
         hasRange: false,
         isMultiSelect: false,
         listingWidth: '50%',
@@ -145,21 +144,20 @@ export class CustomFormComponent implements AfterViewInit{
       // Handle radio group creation
       if (newItem.tag === 'radio' || newItem.tag === 'checkbox' || newItem.tag === 'select') {
         newItem.options = [{ id: this.generateUniqueId(), label: 'Option 1', value: 'Option 1' }];
-        newItem.name = `${newItem.tag}-group-${newItem.id}`;
       }
       
       event.container.data[event.currentIndex] = newItem;
     }
     
     this.inputList =  [
-      { type: 'text', name: 'text', label: 'Text', tag: 'text', inputId: 'text', controlName: 'text' },
-      { type: 'checkbox', name: 'checkbox', label: 'Checkbox', tag: 'checkbox', inputId: 'checkbox', controlName: 'checkbox' },
-      { type: 'file', name: 'file', label: 'File Upload', tag: 'input', inputId: 'file', controlName: 'fileUpload' },
-      { type: 'date', name: 'date', label: 'Date', tag: 'input', inputId: 'date', controlName: 'date' },
-      { type: 'time', name: 'time', label: 'Time', tag: 'input', inputId: 'time' , controlName: 'time'},
-      { type: 'radio', name: 'radio', label: 'Radio', tag: 'radio', inputId: 'radio', controlName: 'radio'},
-      { type: 'textarea', name: 'textarea', label: 'Text Area', tag: 'textarea', inputId: 'textarea', controlName: 'textArea' },
-      { type: 'select', name: 'select', label: 'Select', tag: 'select', inputId: 'select', controlName: 'select' }
+      { type: 'text', label: 'Text', tag: 'text', controlName: 'text' },
+      { type: 'checkbox', label: 'Checkbox', tag: 'checkbox', controlName: 'checkbox' },
+      { type: 'file', label: 'File Upload', tag: 'input', controlName: 'fileUpload' },
+      { type: 'date', label: 'Date', tag: 'input', controlName: 'date' },
+      { type: 'time', label: 'Time', tag: 'input', controlName: 'time'},
+      { type: 'radio', label: 'Radio', tag: 'radio',controlName: 'radio'},
+      { type: 'textarea', label: 'Text Area', tag: 'textarea', controlName: 'textArea' },
+      { type: 'select', label: 'Select', tag: 'select', controlName: 'select' }
     ];
   }
   
@@ -281,7 +279,7 @@ export class CustomFormComponent implements AfterViewInit{
       if (result.isConfirmed) {
         this.sectionList = this.sectionList.map(section => ({
           ...section,
-          inputFields: section.inputFields.filter((item: any) => item.id !== input.id)
+          inputFields: section.inputFields.filter((item: any) => item.inputId !== input.inputId)
         }));
       } else {
         return;
