@@ -28,7 +28,6 @@ export class FormPropertiesComponent {
     this.listingForm.reset();
     this.listingForm?.patchValue({
       inputId: this.properties?.inputId,
-      name: this.properties?.name,
       placeholder: this.properties?.placeholder,
       type: this.properties?.type,
       label: this.properties?.label,
@@ -63,19 +62,23 @@ export class FormPropertiesComponent {
   /**
    * Method to get the formValidations form
    */
-    get getFormValidations() {
-      return this.listingForm.get('formValidations') as FormGroup;
-    }
+  get getFormValidations() {
+    return this.listingForm.get('formValidations') as FormGroup;
+  }
 
-    generateControlName($event: any) {
-      var labelText = $event.target.value
-      labelText = labelText.split(" ");
-      var newStr = labelText[0].toLowerCase();
-      for (var i = 1; i < labelText.length; i++) {
-        newStr += labelText[i].charAt(0).toUpperCase() + labelText[i].substring(1);
-      }
-      this.listingForm.get('controlName')?.patchValue(newStr)
+  /**
+   * controlName generator to generate formControlName.
+   * @param $event 
+   */
+  generateControlName($event: any) {
+    var labelText = $event.target.value
+    labelText = labelText.split(" ");
+    var newStr = labelText[0].toLowerCase();
+    for (var i = 1; i < labelText.length; i++) {
+      newStr += labelText[i].charAt(0).toUpperCase() + labelText[i].substring(1);
     }
+    this.listingForm.get('controlName')?.patchValue(newStr)
+  }
 
   /**
    * Method to get options for checkbox/radio group
