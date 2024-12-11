@@ -20,6 +20,7 @@ export class CustomFormComponent implements AfterViewInit{
   closeResult: string = '';
   connectedDropLists: any[] = [];
   inputFields: any = [];
+  isEditMode: boolean = false;
   formValidations!: FormGroup;
   listingForm!: FormGroup;
   properties: any;
@@ -209,6 +210,7 @@ export class CustomFormComponent implements AfterViewInit{
    * @param sectionDetails 
    */
   addSection(content: TemplateRef<any>, sectionDetails?: any) {
+    this.isEditMode = sectionDetails ? true : false;
     this.sectionId = null;
     this.listingForm.get('sectionName')?.patchValue('')
     if (sectionDetails) {
