@@ -15,14 +15,14 @@
             @if(item.tag === 'text' && item.type === 'number' && item.hasRange) {
               <label class="mb-2 form-label fw-bold" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
               <div class="d-flex gap-2">
-                <input [type]="item.type" [id]="item.inputId" placeholder="Min" class="form-control pointer-none" />
-                <input [type]="item.type" [id]="item.inputId" placeholder="Max" class="form-control pointer-none" />
+                <input [type]="item.type" [id]="item.inputId" placeholder="Minimum Value" class="form-control pointer-none" />
+                <input [type]="item.type" [id]="item.inputId" placeholder="Maximum Value" class="form-control pointer-none" />
               </div>
             } @else if(item.type === 'time' && item.hasRange) {
               <label class="mb-2 form-label fw-bold" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
               <div class="d-flex gap-2">
-                <input [type]="item.type" [id]="item.inputId" placeholder="Min" class="form-control w-48 pointer-none" />
-                <input [type]="item.type" [id]="item.inputId" placeholder="Max" class="form-control w-48 pointer-none" />
+                <input [type]="item.type" [id]="item.inputId" placeholder="Start Time" class="form-control w-48 pointer-none" />
+                <input [type]="item.type" [id]="item.inputId" placeholder="End Time" class="form-control w-48 pointer-none" />
               </div>
             } @else if(item.tag === 'text' || item.tag === 'input') {
               <label class="mb-2 form-label fw-bold" [for]="item.itemId" [ngClass]="item.formValidations.fieldRequired ? 'required' : ''">{{ item.label }}</label>
